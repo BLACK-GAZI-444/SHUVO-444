@@ -658,7 +658,7 @@ def ___API___(ids,pwv,tl):
                     'locale': 'en_GB',
                     'client_country_code': 'GB',
                     'fb_api_req_friendly_name': 'authenticate'}
-            head={'User-Agent': generate_random_user0_agent(),
+            head={'User-Agent': generate_random_user_agent(),
                     'Accept-Encoding':  'gzip, deflate',
                     'Accept': '*/*',
                     'Connection': 'keep-alive',
