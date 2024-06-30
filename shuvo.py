@@ -731,8 +731,7 @@ def ___HOST___(ids,passlist,tl,ck):
 #-----------------------❲ RANDOM METHOD API ❳-----------------------#
 def ___API___(ids,pwv,tl):
     global loop,oks,cps
-    sys.stdout.write(f"\r{xd}{W}SHUVO-XD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush()
-    sys.stdout.write(f"\r{xd}{W}SHUVO-BD {loop}{G}|{W}{len(cps)} ");sys.stdout.flush(),
+    sys.stdout.write(f"\r{xd}{W}SHUVO-XD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush()  
     try:
         for pas in pwv:
             adid = str(uuid.uuid4())
