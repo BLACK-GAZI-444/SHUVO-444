@@ -32,7 +32,7 @@ totaldmp = 0;count = 0;loop = 0;oks = [];cps = [];id = [];ps = [];sid = [];total
 #-----------------------❲ GRAPH & API USER AGENT ❳-----------------------#
 import random
 
-def generate_random_user2_agent():
+def generate_random_user_agent():
     user_agent_template = (
         '[FBAN/FB4A;FBAV/{version};FBBV/{version_code};FBDM/{device_density};FBLC/{language};FBRV/{revision};'
         'FBCR/{carrier};FBMF/{manufacturer};FBBD/{brand};FBPN/{package};FBDV/{device};FBSV/{os_version};'
@@ -192,7 +192,7 @@ predefined_user_agents = [
 for agent in predefined_user_agents:
     print(agent)
 # Add the generated random user agent to the predefined list
-all_user_agents = [generate_random_user2_agent()] + predefined_user_agents
+all_user_agents = [generate_random_user_agent()] + predefined_user_agents
 
 # Randomly select a user agent
 selected_user_agent = random.choice(all_user_agents)
@@ -664,7 +664,7 @@ def ___API___(ids,pwv,tl):
                     'locale': 'en_GB',
                     'client_country_code': 'GB',
                     'fb_api_req_friendly_name': 'authenticate'}
-            head={'User-Agent': generate_random_user2_agent(),
+            head={'User-Agent': generate_random_user_agent(),
                     'Accept-Encoding':  'gzip, deflate',
                     'Accept': '*/*',
                     'Connection': 'keep-alive',
